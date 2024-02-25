@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// 诗人
+model Author {
+  id         Int       @id @default(autoincrement())
+  // 全名
+  fullname   String    @default("")
+  // 字
+  courtesy   String    @default("")
+  // 号
+  pseudonym  String    @default("")
+  // 出生地
+  birthplace String    @default("")
+  // 出生日期
+  birthdate  String    @default("")
+  // 朝代
+  dynasty    String    @default("")
+  // 标签
+  tags       String    @default("")
+  // 简介
+  profiles   String
+  // 创建时间
+  createdAt  DateTime  @default(now())
+  // 更新时间
+  updatedAt  DateTime? @default(now())
+  // 关联的诗词
+  posts      Post[]
+}
+
+model Post {
+  id          Int          @id @default(autoincrement())
+  title       String
+  authorId    Int
+  author      Author       @relation(fields: [authorId], references: [id])
+  contents    Content[]
+  corrections Correction[]
+}
+
+model Content {
+  id      Int    @id @default(autoincrement())
+  postId  Int
+  post    Post   @relation(fields: [postId], references: [id])
+  content String
+}
+
+// 纠错信息
+model Correction {
+  id          Int       @id @default(autoincrement())
+  postId      Int
+  post        Post      @relation(fields: [postId], references: [id])
+  // 纠错类型 1 诗人简介 2 诗词内容
+  type        Int
+  // 纠错信息
+  content     String
+  // 是否处理
+  processed   Boolean   @default(false)
+  // 处理时间
+  processedAt DateTime?
+  // 创建时间
+  createdAt   DateTime  @default(now())
+}
