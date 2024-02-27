@@ -10,31 +10,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+// 朝代
+model Dynasty {
+  id      Int      @id @default(autoincrement())
+  name    String
+  authors Author[]
+}
+
 // 诗人
 model Author {
-  id         Int       @id @default(autoincrement())
-  // 全名
-  fullname   String    @default("")
-  // 字
-  courtesy   String    @default("")
-  // 号
-  pseudonym  String    @default("")
-  // 出生地
-  birthplace String    @default("")
-  // 出生日期
-  birthdate  String    @default("")
+  id        Int       @id @default(autoincrement())
   // 朝代
-  dynasty    String    @default("")
-  // 标签
-  tags       String    @default("")
+  dynastyId Int       @default(0)
+  // 全名
+  fullname  String    @default("")
+  // 字
+  courtesy  String    @default("")
+  // 号
+  pseudonym String    @default("")
+  // 生辰
+  birth     String    @default("")
+  // 
+  death     String    @default("")
+  // 访问量
+  visited   Int       @default(0)
   // 简介
-  profiles   String
+  profiles  String
   // 创建时间
-  createdAt  DateTime  @default(now())
+  createdAt DateTime  @default(now())
   // 更新时间
-  updatedAt  DateTime? @default(now())
+  updatedAt DateTime? @default(now())
   // 关联的诗词
-  posts      Post[]
+  posts     Post[]
+  dynasty   Dynasty   @relation(fields: [dynastyId], references: [id])
+}
+
+model Form {
+  id      Int    @id @default(autoincrement())
+  name    String
+  visited Int    @default(0)
+  posts   Post[]
 }
 
 model Post {
@@ -42,22 +57,36 @@ model Post {
   title       String
   authorId    Int
   author      Author       @relation(fields: [authorId], references: [id])
+  // 类型 五绝 七绝
+  formId      Int
+  form        Form         @relation(fields: [formId], references: [id])
+  tags        String       @default("")
+  // 创建时间
+  createdAt DateTime  @default(now())
+  // 更新时间
+  updatedAt DateTime? @default(now())
+  // 查询次数
+  visited     Int          @default(0)
   contents    Content[]
   corrections Correction[]
 }
 
 model Content {
-  id      Int    @id @default(autoincrement())
-  postId  Int
-  post    Post   @relation(fields: [postId], references: [id])
+  id     Int @id @default(autoincrement())
+  postId Int
+
+  // 查询次数
+  visited Int    @default(0)
   content String
+
+  post Post @relation(fields: [postId], references: [id])
 }
 
 // 纠错信息
 model Correction {
-  id          Int       @id @default(autoincrement())
-  postId      Int
-  post        Post      @relation(fields: [postId], references: [id])
+  id     Int @id @default(autoincrement())
+  postId Int
+
   // 纠错类型 1 诗人简介 2 诗词内容
   type        Int
   // 纠错信息
@@ -68,4 +97,6 @@ model Correction {
   processedAt DateTime?
   // 创建时间
   createdAt   DateTime  @default(now())
+
+  post Post @relation(fields: [postId], references: [id])
 }
