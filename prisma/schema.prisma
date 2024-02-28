@@ -116,7 +116,7 @@ model UserFavorite {
 model Correction {
   id          Int       @id @default(autoincrement())
   postId      Int
-  userId      Int
+  userId      Int?
   // 纠错类型 1 诗人简介 2 诗词内容
   type        Int
   // 纠错信息
@@ -128,6 +128,6 @@ model Correction {
   // 创建时间
   createdAt   DateTime  @default(now())
 
-  post Post @relation(fields: [postId], references: [id])
-  user User @relation(fields: [userId], references: [id])
+  post Post  @relation(fields: [postId], references: [id])
+  user User? @relation(fields: [userId], references: [id])
 }
