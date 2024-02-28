@@ -1,10 +1,5 @@
-<script lang="ts">
-  const start = async ()=> {
-    const res = await fetch('/api/author')
-    const end = await res.json();
-  }
-</script>
+<svelte:head>
+  <title>中华诗词|首页</title>
+</svelte:head>
 
-<h1>Welcome to</h1>
-
-<button on:click={ start } type="button">开始</button>
+<h1>首页</h1>
