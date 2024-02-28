@@ -45,6 +45,7 @@ model Author {
   dynasty   Dynasty   @relation(fields: [dynastyId], references: [id])
 }
 
+// 诗词类型 七绝
 model Form {
   id      Int    @id @default(autoincrement())
   name    String
@@ -52,42 +53,70 @@ model Form {
   posts   Post[]
 }
 
+// 诗词主表
 model Post {
-  id          Int          @id @default(autoincrement())
-  authorId    Int
-  author      Author       @relation(fields: [authorId], references: [id])
+  id        Int       @id @default(autoincrement())
+  authorId  Int
+  author    Author    @relation(fields: [authorId], references: [id])
   // 类型 五绝 七绝
-  formId      Int
-  form        Form         @relation(fields: [formId], references: [id])
-  title       String
-  tags        String       @default("")
+  formId    Int
+  form      Form      @relation(fields: [formId], references: [id])
+  title     String
+  tags      String    @default("")
   // 查询次数
-  visited     Int          @default(0)
+  visited   Int       @default(0)
   // 创建时间
   createdAt DateTime  @default(now())
   // 更新时间
   updatedAt DateTime? @default(now())
-  
+
   contents    Content[]
+  corrections Correction[]
+  favorites   UserFavorite[]
+}
+
+// 诗词内容
+model Content {
+  id      Int    @id @default(autoincrement())
+  postId  Int
+  content String
+  post    Post   @relation(fields: [postId], references: [id])
+}
+
+// 用户
+model User {
+  id        Int      @id @default(autoincrement())
+  //
+  fullname  String
+  // 密码
+  hash      String
+  // 是否是管理员
+  adm       Boolean  @default(false)
+  // 是否冻结
+  frozen    Boolean  @default(false)
+  // 创建时间
+  createdAt DateTime @default(now())
+
+  favorites   UserFavorite[]
   corrections Correction[]
 }
 
-model Content {
-  id     Int @id @default(autoincrement())
-  postId Int
-
-  // 查询次数
-  visited Int    @default(0)
-  content String
-
-  post Post @relation(fields: [postId], references: [id])
+// 收藏夹
+model UserFavorite {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  postId    Int
+  // 收藏时间
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
 }
 
 // 纠错信息
 model Correction {
-  id     Int @id @default(autoincrement())
-  postId Int
-
+  id          Int       @id @default(autoincrement())
+  postId      Int
+  userId      Int
   // 纠错类型 1 诗人简介 2 诗词内容
   type        Int
   // 纠错信息
@@ -100,4 +129,5 @@ model Correction {
   createdAt   DateTime  @default(now())
 
   post Post @relation(fields: [postId], references: [id])
+  user User @relation(fields: [userId], references: [id])
 }
