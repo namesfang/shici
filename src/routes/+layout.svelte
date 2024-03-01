@@ -9,7 +9,7 @@
   <ul>
     {#each data.list as { id, name }}
     <li>
-      <a href="/dynasty/{name}">{name}</a>
+      <a href="/{name}">{name}</a>
     </li>
     {/each}
   </ul>
