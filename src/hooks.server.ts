@@ -47,8 +47,13 @@ export const handle: Handle = async ({ event, resolve })=> {
           user: {},
         };
       }
+    } else {
+      if(path.indexOf('/user') === 0) {
+        throw redirect(302, '/login')
+      }
     }
   }
+  return resolve(event)
 
   // 替换
   return resolve(event, {
