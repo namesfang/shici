@@ -2,15 +2,8 @@ import { client } from '$lib/prisma'
 import { error } from '@sveltejs/kit';
 
 export async function load({ params }) {
-  const dynasty = await client.dynasty.findFirst({
-    where: {
-      name: params.dynasty
-    }
-  })
-
-  if(!dynasty) {
-    throw error(404, 'Not Found');
-  }
+  const id = Number(params.post)
+  const dynastyId = Number(params.dynasty)
 
   const detail = await client.post.findFirst({
     include: {
@@ -19,11 +12,15 @@ export async function load({ params }) {
       dynasty: true,
     },
     where: {
-      dynastyId: dynasty?.id,
-      title: params.title
+      id,
+      dynastyId
     },
   })
-  console.log('de', detail)
+
+  if(!detail) {
+    throw error(404, 'Not Found');
+  }
+  // console.log('de', detail)
   return {
     detail
   }

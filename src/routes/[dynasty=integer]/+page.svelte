@@ -4,12 +4,15 @@
   export let data;
 
 </script>
-
+<form>
+  <input type="text" name="keyword"/>
+  <button type="submit">搜索</button>
+</form>
 <h1>诗词列表</h1>
 <ul>
   {#each data.list as t}
   <li>
-    <a href="/{data.dynasty}/{t.title}">{t.title}</a>
+    <a href="/{t.dynastyId}/{t.id}">{t.title}</a>
   </li>
   {/each}
 </ul>

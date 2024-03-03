@@ -3,10 +3,25 @@ import { error } from "@sveltejs/kit";
 
 export async function load({ params, url }) {
 
-  const detail = await client.dynasty.findFirst({
-    where: {
-      name: params.dynasty
+  const keyword = url.searchParams.get('keyword');
+
+  const dynastyId = Number(params.dynasty);
+
+  const where = {
+    id: dynastyId,
+    name: {
+      contains: ''
     }
+  }
+
+  if(keyword) {
+    where.name = {
+      contains: keyword
+    }
+  }
+
+  const detail = await client.dynasty.findFirst({
+    where
   })
 
   if(!detail) {
@@ -20,15 +35,19 @@ export async function load({ params, url }) {
 
   const list = await client.post.findMany({
     where: {
-      dynastyId: detail.id
+      dynastyId
     },
     skip: skip,
     take: take
   })
 
-  const count = await client.post.count()
+  const count = await client.post.count({
+    where: {
+      dynastyId
+    }
+  })
 
-  console.log(list)
+  // console.log(list)
 
   const pages = Math.ceil(count / take)
 
@@ -38,5 +57,11 @@ export async function load({ params, url }) {
     count,
     pages,
     dynasty: params.dynasty
+  }
+}
+
+export const actions = {
+  async search(e) {
+    console.log(e)
   }
 }
