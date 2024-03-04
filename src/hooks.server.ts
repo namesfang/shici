@@ -30,6 +30,11 @@ const replaceAll = (html: string, event: RequestEvent)=> {
 }
 
 export const handle: Handle = async ({ event, resolve })=> {
+
+  event.locals = {
+    title: '中华诗词'
+  }
+
   // "/[fallback]" 是sveltekit内部build时需要
   if(!event.url.pathname.includes('/[fallback]')) {
     // 鉴权
@@ -44,7 +49,13 @@ export const handle: Handle = async ({ event, resolve })=> {
       const success = true;
       if(success) {
         event.locals = {
-          user: {},
+          ...event.locals,
+          user: {
+            id: 0,
+            fullname: '',
+            adm: false,
+            createAt: ''
+          },
         };
       }
     } else {
