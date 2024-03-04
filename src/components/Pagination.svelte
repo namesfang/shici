@@ -22,6 +22,7 @@
   $: pageCurrent = $page.url.searchParams.get('page') ?? 1;
 
   $: {
+    pages.splice(0)
     if(pageCount <= pagLength) {
       for(let i=1; i<=pagLength; i++) {
         pages.push({
@@ -50,12 +51,9 @@
       }
     }
   }
-
-  
-
 </script>
 <div class="pagination">
-  <p>共{pageCount}页，每页{take}条</p>
+  <p>共{count}条，每页{take}条，共{pageCount}页</p>
   <form>
     <input type="number" name="page" placeholder="跳转"/>
   </form>
