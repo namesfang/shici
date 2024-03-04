@@ -2,7 +2,7 @@ import { client } from "$lib/prisma"
 
 export const prerender = false;
 
-export const load = async()=> {
+export const load = async({ locals })=> {
   const list = await client.dynasty.findMany()
 
   list.unshift({
@@ -11,6 +11,7 @@ export const load = async()=> {
   })
   
   return {
-    list
+    list,
+    locals
   }
 }

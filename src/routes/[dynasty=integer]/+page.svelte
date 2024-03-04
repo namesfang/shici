@@ -1,9 +1,13 @@
 <script lang="ts">
   import Pagination from "$component/Pagination.svelte";
+	import { json } from "@sveltejs/kit";
   //
   export let data;
-
 </script>
+<svelte:head>
+  <title>{data.dynasty.name}|{data.locals.title}</title>
+</svelte:head>
+
 <form>
   <input type="text" name="keyword"/>
   <button type="submit">搜索</button>
@@ -17,4 +21,4 @@
   {/each}
 </ul>
 
-<Pagination count={data.count} url={data.dynasty}/>
+<Pagination count={data.count} url={`/${data.dynasty.id}`}/>

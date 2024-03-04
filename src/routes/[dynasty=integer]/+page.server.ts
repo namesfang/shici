@@ -1,3 +1,4 @@
+import type { Prisma } from "@prisma/client";
 import { client } from "$lib/prisma";
 import { error } from "@sveltejs/kit";
 
@@ -7,24 +8,13 @@ export async function load({ params, url }) {
 
   const dynastyId = Number(params.dynasty);
 
-  const where = {
-    id: dynastyId,
-    name: {
-      contains: ''
+  const dynasty = await client.dynasty.findFirst({
+    where: {
+      id: dynastyId
     }
-  }
-
-  if(keyword) {
-    where.name = {
-      contains: keyword
-    }
-  }
-
-  const detail = await client.dynasty.findFirst({
-    where
   })
 
-  if(!detail) {
+  if(!dynasty) {
     return error(404, 'Not Found')
   }
 
@@ -33,21 +23,27 @@ export async function load({ params, url }) {
   const take = 20
   const skip = Number(pageParam ?? 0);
 
+  const where = {
+    dynastyId,
+  } as Prisma.PostWhereInput
+
+  if(keyword) {
+    where.title = {
+      contains: keyword
+    }
+  }
+
   const list = await client.post.findMany({
-    where: {
-      dynastyId
-    },
+    where,
     skip: skip,
     take: take
   })
 
   const count = await client.post.count({
-    where: {
-      dynastyId
-    }
+    where
   })
 
-  // console.log(list)
+  // console.log(dynasty)
 
   const pages = Math.ceil(count / take)
 
@@ -56,12 +52,6 @@ export async function load({ params, url }) {
     take,
     count,
     pages,
-    dynasty: params.dynasty
-  }
-}
-
-export const actions = {
-  async search(e) {
-    console.log(e)
+    dynasty
   }
 }

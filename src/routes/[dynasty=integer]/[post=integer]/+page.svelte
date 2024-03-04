@@ -15,8 +15,13 @@
     alert(data.detail.title)
   }
 </script>
+
+<svelte:head>
+  <title>{data.detail.title}|{data.locals.title}</title>
+</svelte:head>
+
 <article>
-  <h1>{data.detail?.title}</h1>
+  <h1>{data.detail.title}</h1>
   <section>
     <p>作者：<a href="/author/{author?.id}">{author?.fullname}</a></p>
     <p>朝代：{dynasty?.name}</p>
