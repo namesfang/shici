@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+  
   type Pages = {
     text: string;
     num: number;
