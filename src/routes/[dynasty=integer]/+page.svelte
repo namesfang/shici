@@ -14,9 +14,9 @@
 </form>
 <h1>诗词列表</h1>
 <ul>
-  {#each data.list as t}
+  {#each data.list as t, i}
   <li>
-    <a href="/{t.dynastyId}/{t.id}">{t.title}</a>
+    <a href="/{t.dynastyId}/{t.id}">{i+1}. {t.title}</a>
   </li>
   {/each}
 </ul>

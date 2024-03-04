@@ -18,10 +18,10 @@ export async function load({ params, url }) {
     return error(404, 'Not Found')
   }
 
-  const pageParam = url.searchParams.get('page');
+  const page = url.searchParams.get('page');
 
   const take = 20
-  const skip = Number(pageParam ?? 0);
+  const skip = (Number(page ?? 1) - 1) * take;
 
   const where = {
     dynastyId,
@@ -35,8 +35,8 @@ export async function load({ params, url }) {
 
   const list = await client.post.findMany({
     where,
+    take: take,
     skip: skip,
-    take: take
   })
 
   const count = await client.post.count({
@@ -45,13 +45,10 @@ export async function load({ params, url }) {
 
   // console.log(dynasty)
 
-  const pages = Math.ceil(count / take)
-
   return {
     list,
     take,
     count,
-    pages,
     dynasty
   }
 }
