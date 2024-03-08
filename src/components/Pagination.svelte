@@ -1,9 +1,11 @@
 <script lang="ts">
   import { page } from "$app/stores";
   
-  type Pages = {
+  type Item = {
     text: string;
-    num: number;
+    page: number;
+    dot: boolean;
+    active?: boolean;
   }
 
   // 页尺寸
@@ -13,70 +15,123 @@
   // 跳转地址
   export let url: string;
 
-  const pagLength = 9;
+  const pagesTotal = 9;
+  const pagesHalf = Math.ceil(pagesTotal / 2)
+  
+  let pageCount: number;
+  let pageCurrent: number;
 
-  const pages: Pages[] = []
-
-  $: pageCount = count > 0 ? Math.ceil(count / take) : 0;
-
-  $: pageCurrent = $page.url.searchParams.get('page') ?? 1;
+  const pages: Item[] = []
 
   $: {
     pages.splice(0)
-    if(pageCount <= pagLength) {
-      for(let i=1; i<=pagLength; i++) {
+
+    // 总页数
+    pageCount = count > 0 ? Math.ceil(count / take) : 0;
+    // 当前页码
+    pageCurrent = Number($page.url.searchParams.get('page') ?? 1);
+
+    // 第一页
+    pages.push({
+      dot: false,
+      page: 1,
+      text: String(1),
+    })
+
+    if(pageCount <= pagesTotal) {
+      for(let i=2; i<pageCount; i++) {
         pages.push({
-          num: i,
+          dot: false,
+          page: i,
           text: String(i)
         })
       }
     } else {
-      const max = Math.floor(pagLength / 2);
-      for(let i=1; i<=max; i++) {
+      // 1 2 3 4 5 6 7 8 . 9
+      // 1 . 4 5 6 7 8 . 18
+      // 1 . 13 14 15 16 17 18
+      if(pageCurrent < pagesTotal - 2) {
+        for(let i=2; i<pagesTotal - 1; i++) {
+          pages.push({
+            dot: false,
+            page: i,
+            text: String(i)
+          })
+        }
+        // 
         pages.push({
-          num: i,
-          text: String(i)
+          dot: true,
+          page: 0,
+          text: '...'
         })
-      }
-      pages.push({
-        num: -1,
-        text: '...'
-      })
-
-      for(let i=pageCount - max + 1; i<=pageCount; i++) {
+      } else if(pageCurrent > pageCount - 2) {
+        // 
         pages.push({
-          num: i,
-          text: String(i)
+          dot: true,
+          page: 0,
+          text: '...'
+        })
+        for(let i=pageCount - pagesTotal + 2; i<pageCount; i++) {
+          pages.push({
+            dot: false,
+            page: i,
+            text: String(i)
+          })
+        }
+      } else {
+        pages.push({
+          dot: true,
+          page: 0,
+          text: '...'
+        })
+        for(let i=pageCurrent-3; i<=pageCurrent + 3; i++) {
+          pages.push({
+            dot: false,
+            page: i,
+            text: String(i)
+          })
+        }
+        pages.push({
+          dot: true,
+          page: 0,
+          text: '...'
         })
       }
     }
+
+    // 最后一页
+    pages.push({
+      dot: false,
+      page: pageCount,
+      text: String(pageCount),
+    })
   }
 </script>
-<div class="pagination">
-  <p>共{count}条，每页{take}条，共{pageCount}页</p>
-  <form>
-    <input type="number" name="page" placeholder="跳转"/>
-  </form>
-  <ul>
-    {#each pages as item}
-      {#if item.num > 0}
-        {#if pageCurrent == item.num}
+{#if pages.length > 1}
+  <div class="pagination">
+    <p>共{count}条，每页{take}条，共{pageCount}页</p>
+    <form>
+      <input type="number" name="page" placeholder="跳转"/>
+    </form>
+    <ul>
+      {#each pages as item}
+        {#if pageCurrent == item.page}
           <li class="active">
             <span>{item.text}</span>
           </li>
+        {:else if false === item.dot }
+          <li>
+            <a href="{url}?page={item.page}">{item.text}</a>
+          </li>
         {:else}
           <li>
-            <a href="{url}?page={item.num}">{item.text}</a>
+            <span>{item.text}</span>
           </li>
         {/if}
-      {:else}
-        <li>
-          <span>{item.text}</span>
-        </li>
-      {/if}
-    {/each}
-  </ul>
-</div>
+      {/each}
+    </ul>
+  </div>
+{/if}
 
 <style lang="scss">
   .pagination {
