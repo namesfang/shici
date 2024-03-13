@@ -13,7 +13,19 @@
   --gray-100: #f5f5f5;
   --gray-50: #fafafa;
 
-  --primary-500: #cc0000;
+  --primary-900: #ff1616;
+  --primary-800: #ff2626;
+  --primary-700: #ff4040;
+  --primary-600: #ff5252;
+  --primary-500: #ff7373;
+  --primary-400: #ffb3b3;
+  --primary-300: #ffd4d4;
+  --primary-200: #ffe5e5;
+  --primary-100: #fff5f5;
+  --primary-50: #fffafa;
+
+  --height-header: 64px;
+  --height-footer: 212px;
 }
 
 body {
@@ -23,15 +35,32 @@ body {
   margin: 0;
 }
 
-ul {
+ul,li {
   padding: 0;
   margin: 0;
   list-style-type: none;
 }
 
-a {
+dl,dt,dd {
+  margin: 0;
+  padding: 0;
+}
+
+h1,h2,h3,h4,h5,h6 {
+  margin: 0;
+}
+
+a,a:visited,a:hover {
   text-decoration: none;
   color: var(--gray-500);
+}
+
+p {
+  margin: 0;
+}
+
+button {
+  padding: 0;
 }
 
 input::-webkit-outer-spin-button,
