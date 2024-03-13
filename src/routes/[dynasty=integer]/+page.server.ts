@@ -20,7 +20,7 @@ export async function load({ params, url }) {
 
   const page = url.searchParams.get('page');
 
-  const take = 20
+  const take = 80
   const skip = (Number(page ?? 1) - 1) * take;
 
   const where = {
@@ -43,10 +43,17 @@ export async function load({ params, url }) {
     where
   })
 
+  const posts = []
+
+  if(list.length > 20) {
+    for(let i=0; i<4; i++) {
+      posts.push(list.splice(0, 20))
+    }
+  }
   // console.log(dynasty)
 
   return {
-    list,
+    posts,
     take,
     count,
     dynasty
