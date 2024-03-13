@@ -1,19 +1,33 @@
 <script lang="ts">
   import { page } from '$app/stores';
+  import { browser } from '$app/environment';
+  import { debounce } from 'throttle-debounce'
+	import Icon from '$component/Icon.svelte';
+
   export let data;
 
+  let now = (new Date).getFullYear()
+  let className: string = ''
   let dynasty: number;
   
   $: {
     dynasty = Number($page.params.dynasty ? $page.params.dynasty : 0)
   }
 
+  const scrolling = debounce(200, ()=> {
+    className =  document.documentElement.scrollTop > 50 ? 'header-stick' : ''
+  })
+
+  if(browser) {
+    window.addEventListener('scroll', scrolling)
+  }
 </script>
 
-<header>
+<header class={className}>
+  <div class="placeholder"></div>
   <div class="inner">
     <div class="west">
-      <a href="/">中华诗词</a>
+      <a href="/">{data.locals.title }</a>
     </div>
     <div class="east">
       <ul>
@@ -29,6 +43,7 @@
           {/if}
         {/each}
       </ul>
+      <!--
       {#if data.list.length == 0}
         <a href="/login" class="avatar">
           <img src="/images/logo-72.jpg" alt="avatar" class="offline"/>
@@ -38,6 +53,7 @@
           <img src="/images/logo-72.jpg" alt="avatar"/>
         </a>
       {/if}
+      -->
     </div>
   </div>
 </header>
@@ -47,10 +63,31 @@
 </main>
 
 <footer>
-  <p>&copy; 版权所有 皖ICP备</p>
+  <p>
+    <span>{data.locals.title}&copy;{now}</span>
+    <a class="underline" rel="nofollow" href="https://beian.miit.gov.cn/">皖ICP备19011029号-12</a>
+  </p>
+  <p>中华诗词收录了上至先秦，下至当代共计六万余首诗词，完全免费并开放所有诗词内容和程序源代码，您可自由复制、修改、传播诗词内容和程序源码。<a class="underline" rel="nofollow" href="https://github.com/michaelliao/shici/">数据来源</a></p>
+  <p>
+    <a rel="nofollow" href="https://github.com/namesfang/shici">
+      <Icon type="github-fill" medium/>
+    </a>
+  </p>
 </footer>
 
-<style lang="scss">
+<style lang="scss" scoped>
+  .header-stick {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    animation: .5 all;
+    z-index: 1;
+    .placeholder {
+      display: block;
+    }
+  }
+
   header {
     height: 64px;
     background-color: var(--white);
@@ -65,6 +102,11 @@
       right: 0;
       transform: scaleY(.5);
     }
+
+    .placeholder {
+      display: none;
+    }
+
     .inner {
       width: 1200px;
       margin: 0 auto;
@@ -78,7 +120,7 @@
           display: flex;
           align-items: center;
           padding-left: 40px;
-          color: var(--primary-500);
+          color: var(--primary-900);
           font: {
             size: 26px;
             weight: bold;
@@ -113,7 +155,7 @@
           .active {
             a {
               color: var(--white);
-              background-color: var(--primary-500);
+              background-color: var(--primary-900);
             }
           }
         }
@@ -137,13 +179,28 @@
 
   }
 
-  main {
-    width: 1200px;
-    margin: 0 auto;
-  }
-
   footer {
-    height: 200px;
-    background-color: var(--gray-200);
+    height: auto;
+    overflow: hidden;
+    padding: 50px 0;
+    background-color: var(--gray-100);
+    p {
+      height: 32px;
+      font-size: 14px;
+      margin: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      a {
+        color: var(--gray-900);
+        &[class^="underline"]:hover {
+          text-decoration: underline;
+        }
+      }
+
+      &:last-child {
+        height: 48px;
+      }
+    }
   }
 </style>
