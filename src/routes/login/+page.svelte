@@ -66,7 +66,7 @@
           border-radius: 10px;
           border: 0;
           width: 100%;
-          background-color: var(--primary-500);
+          background-color: var(--primary-900);
         }
       }
       
