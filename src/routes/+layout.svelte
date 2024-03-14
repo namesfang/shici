@@ -15,7 +15,7 @@
   }
 
   const scrolling = debounce(200, ()=> {
-    className =  document.documentElement.scrollTop > 50 ? 'header-stick' : ''
+    className =  document.documentElement.scrollTop > 30 ? 'header-stick' : ''
   })
 
   if(browser) {
@@ -81,7 +81,7 @@
     top: 0;
     left: 0;
     right: 0;
-    animation: .5 all;
+    transition: .5s all;
     z-index: 1;
     .placeholder {
       display: block;
