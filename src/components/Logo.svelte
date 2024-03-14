@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/stores'
+
   export let size = 194;
   export let large = false;
   export let medium = false;
@@ -20,4 +22,4 @@
   }
 </script>
 
-<img {src} alt="LOGO"/>
+<img {src} alt={$page.data.locals.title}/>
