@@ -15,28 +15,36 @@
   // 跳转地址
   export let url: string;
 
+  export let pagesCount = 0;
+
   const pagesTotal = 9;
-  const pagesHalf = Math.ceil(pagesTotal / 2)
   
   let pageCount: number;
   let pageCurrent: number;
+  let pageVisited: number;
 
   const pages: Item[] = []
 
   $: {
     pages.splice(0)
-
+    
+    // 访问记录
+    pageVisited = pageCurrent
     // 总页数
     pageCount = count > 0 ? Math.ceil(count / take) : 0;
     // 当前页码
     pageCurrent = Number($page.url.searchParams.get('page') ?? 1);
 
+    console.log('ddd', pageCurrent)
+
     // 第一页
-    pages.push({
-      dot: false,
-      page: 1,
-      text: String(1),
-    })
+    if(pageCount > 1) {
+      pages.push({
+        dot: false,
+        page: 1,
+        text: String(1),
+      })
+    }
 
     if(pageCount <= pagesTotal) {
       for(let i=2; i<pageCount; i++) {
@@ -64,6 +72,7 @@
           page: 0,
           text: '...'
         })
+        console.log('pages1', pages)
       } else if(pageCurrent > pageCount - 2) {
         // 
         pages.push({
@@ -78,6 +87,7 @@
             text: String(i)
           })
         }
+        console.log('pages2', pages)
       } else {
         pages.push({
           dot: true,
@@ -100,12 +110,18 @@
     }
 
     // 最后一页
-    pages.push({
-      dot: false,
-      page: pageCount,
-      text: String(pageCount),
-    })
+    if(pageCount > 1) {
+      pages.push({
+        dot: false,
+        page: pageCount,
+        text: String(pageCount),
+      })
+    }
+
+    pagesCount = pages.length
   }
+
+  console.log(typeof pages, 'pages./')
 </script>
 {#if pages.length > 1}
   <div class="pagination">
@@ -135,10 +151,11 @@
 
 <style lang="scss">
   .pagination {
-    height: 46px;
+    height: 32px;
     display: flex;
-    justify-content: right;
+    justify-content: center;
     align-items: center;
+    margin: 40px 0;
     p {
       font-size: 14px;
       color: var(--gray-700);
@@ -150,8 +167,12 @@
         height: 30px;
         padding: 0 10px;
         font-size: 14px;
-        border: 1px solid var(--gray-400);
-        border-radius: 5px;
+        border: 0;
+        border-radius: 4px;
+        background-color: var(--gray-100);
+        &:focus {
+          outline: 3px solid var(--primary-900);
+        }
       }
     }
 
@@ -159,22 +180,27 @@
       display: flex;
       li {
         a, span {
+          height: 32px;
+          line-height: 32px;
           font-size: 14px;
           color: var(--gray-700);
           display: flex;
-          padding: 8px 12px;
+          padding: 0 12px;
           margin-right: 6px;
+          border-radius: 4px;
         }
 
-        span {
-          color: var(--gray-400);
+        a {
+          &:hover {
+            color: var(--primary-900);
+          }
         }
       }
 
       .active {
         span {
           color: var(--white);
-          background-color: var(--primary-500);
+          background-color: var(--primary-900);
         }
       }
     }
