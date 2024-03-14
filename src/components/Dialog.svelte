@@ -6,13 +6,13 @@
   import { createEventDispatcher } from "svelte";
   
 
-  type Action = 'login' | 'signup' | null
   type Callback = (close: ()=> void)=> void
+  type Action = Callback | 'login' | 'signup' | null
 
   type Options = {
     text: string;
     enabled: boolean;
-    action: Action | Callback;
+    action: Action;
     redirect: false;
   }
 
