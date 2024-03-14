@@ -39,7 +39,7 @@
           background-color: var(--white);
           border-radius: 4px 0 0 4px;
           &:focus {
-            outline: 4px solid var(--primary-200);
+            outline: 4px solid var(--primary-900);
           }
         }
         button {
