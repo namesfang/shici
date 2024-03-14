@@ -35,8 +35,8 @@ export async function load({ params, url }) {
 
   const list = await client.post.findMany({
     where,
-    take: take,
-    skip: skip,
+    take,
+    skip,
   })
 
   const count = await client.post.count({
@@ -45,10 +45,8 @@ export async function load({ params, url }) {
 
   const posts = []
 
-  if(list.length > 20) {
-    for(let i=0; i<4; i++) {
-      posts.push(list.splice(0, 20))
-    }
+  while(list.length > 0) {
+    posts.push(list.splice(0, 20))
   }
   // console.log(dynasty)
 
