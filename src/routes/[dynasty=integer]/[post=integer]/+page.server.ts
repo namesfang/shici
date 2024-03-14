@@ -20,8 +20,17 @@ export async function load({ params }) {
   if(!detail) {
     throw error(404, 'Not Found');
   }
-  // console.log('de', detail)
+
+  console.log(detail.contents, '‘ddd')
+
+  const contents = []
+
+  while(detail.contents.length > 0) {
+    contents.push(detail.contents.splice(0, 2))
+  }
+
   return {
-    detail
+    detail,
+    contents
   }
 }
