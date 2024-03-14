@@ -32,7 +32,7 @@ const replaceAll = (html: string, event: RequestEvent)=> {
 export const handle: Handle = async ({ event, resolve })=> {
 
   event.locals = {
-    title: '中华诗词'
+    title: '中华诗词网'
   }
 
   // "/[fallback]" 是sveltekit内部build时需要

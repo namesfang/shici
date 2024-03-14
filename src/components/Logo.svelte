@@ -22,4 +22,4 @@
   }
 </script>
 
-<img {src} alt={$page.data.locals.title}/>
+<img {src} alt={$page.data.locals.title} title={$page.data.locals.title}/>

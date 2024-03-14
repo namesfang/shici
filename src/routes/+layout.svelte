@@ -3,6 +3,7 @@
   import { browser } from '$app/environment';
   import { debounce } from 'throttle-debounce'
 	import Icon from '$component/Icon.svelte';
+	import Logo from '$component/Logo.svelte';
 
   export let data;
 
@@ -27,7 +28,10 @@
   <div class="placeholder"></div>
   <div class="inner">
     <div class="west">
-      <a href="/">{data.locals.title }</a>
+      <a href="/">
+        <Logo size={32}/>
+        <em>{data.locals.title }</em>
+      </a>
     </div>
     <div class="east">
       <ul>
@@ -119,16 +123,13 @@
           height: 64px;
           display: flex;
           align-items: center;
-          padding-left: 40px;
           color: var(--primary-900);
           font: {
             size: 26px;
             weight: bold;
           };
-          background: {
-            image: url(/images/logo-32.jpg);
-            position: left center;
-            repeat: no-repeat;
+          em {
+            margin-left: 10px;
           }
         }
       }
