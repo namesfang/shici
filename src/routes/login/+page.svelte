@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Icon from "$component/Icon.svelte";
 	import Logo from "$component/Logo.svelte";
 
 
@@ -26,10 +27,13 @@
 <style lang="scss">
 
   .login-wrapper {
-    width: 320px;
-    margin: 100px auto;
+    height: calc(100vh - var(--height-header) - var(--height-footer));
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     form {
+      width: 320px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -42,8 +46,10 @@
         input {
           width: 100%;
           height: 46px;
-          padding: 0 20px;
+          padding: 0 20px 0 40px;
           box-sizing: border-box;
+          position: relative;
+          z-index: 0;
           
           &:first-child {
             border-radius: 10px 10px 0 0;
@@ -53,6 +59,11 @@
             border-radius: 0 0 10px 10px;
             border: 1px solid var(--gray-400);
             border-top: 0;
+          }
+          &:focus {
+            border-color: transparent;
+            outline: 3px solid var(--primary-900);
+            z-index: 1;
           }
         }
       }
@@ -71,7 +82,13 @@
       }
       
       .at {
-        line-height: 30px;
+        line-height: 60px;
+        font-size: 14px;
+        a {
+          &:hover {
+            text-decoration: underline;
+          }
+        }
       }
     }
   }
