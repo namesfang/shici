@@ -57,7 +57,8 @@
       }
 
       &:focus {
-        border-color: transparent;
+        border-color: var(--primary-900);
+        outline-offset: 2px;
         outline: 3px solid var(--primary-900);
       }
     }
