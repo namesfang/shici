@@ -73,8 +73,8 @@
       if(Object.keys(actions).includes(mergeConfirmOptions.action)) {
         mergeConfirmOptions.redirect ? replaceState(url, {}) : pushState(url, {})
       }
-    } else if (typeof mergeCancelOptions.action === 'function') {
-      mergeCancelOptions.action(()=> {
+    } else if (typeof mergeConfirmOptions.action === 'function') {
+      mergeConfirmOptions.action(()=> {
         visible = false
       })
     } else {
