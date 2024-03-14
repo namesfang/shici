@@ -3,7 +3,7 @@
   --black: #000;
 
   --gray-900: #171717;
-  --gray-900: #262626;
+  --gray-800: #262626;
   --gray-700: #404040;
   --gray-600: #525252;
   --gray-500: #737373;
@@ -23,6 +23,17 @@
   --primary-200: #ffe5e5;
   --primary-100: #fff5f5;
   --primary-50: #fffafa;
+
+  --success-900: #16ff16;
+  --success-800: #26ff26;
+  --success-700: #40ff40;
+  --success-600: #52ff52;
+  --success-500: #73ff73;
+  --success-400: #b3ffb3;
+  --success-300: #d4ffd4;
+  --success-200: #e5ffe5;
+  --success-100: #f5fff5;
+  --success-50: #fafffa;
 
   --height-header: 64px;
   --height-footer: 212px;
@@ -53,6 +64,10 @@ h1,h2,h3,h4,h5,h6 {
 a,a:visited,a:hover {
   text-decoration: none;
   color: var(--gray-500);
+}
+
+em {
+  font-style: normal;
 }
 
 p {
