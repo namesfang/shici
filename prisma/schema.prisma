@@ -135,3 +135,17 @@ model Correction {
   post Post  @relation(fields: [postId], references: [id])
   user User? @relation(fields: [userId], references: [id])
 }
+
+// 字典
+model Dict {
+  id          Int     @id @default(autoincrement())
+  parentId    Int?
+  key         String
+  label       String
+  value       String
+  orderNumber Int     @default(99)
+  enabled     Boolean @default(true)
+
+  parent     Dict?  @relation("parent", fields: [parentId], references: [id])
+  attributes Dict[] @relation("parent")
+}
