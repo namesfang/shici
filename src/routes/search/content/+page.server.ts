@@ -1,36 +1,35 @@
 import type { Prisma } from "@prisma/client";
 import { client } from "$lib/prisma";
+import { error } from "@sveltejs/kit";
 
-export async function load({ url, params }) {
+export async function load({ url }) {
 
-  const take = 80
+  const take = 60
   const page = url.searchParams.get('page');
   const skip = (Number(page ?? 1) - 1) * take;
 
-  const type = params.type ?? 0;
   const keyword = url.searchParams.get('keyword');
 
   if(!keyword) {
-    return {
-      take,
-      skip,
-      posts: [],
-    }
+    return error(400, '请输入关键字');
   }
 
   const where = {
-    title: {
+    content: {
       contains: keyword
     },
-  } as Prisma.PostWhereInput
+  } as Prisma.ContentWhereInput
 
-  const list = await client.post.findMany({
+  const list = await client.content.findMany({
     where,
     take,
     skip,
+    include: {
+      post: true
+    }
   })
 
-  const count = await client.post.count({
+  const count = await client.content.count({
     where
   })
 
@@ -39,13 +38,12 @@ export async function load({ url, params }) {
   while(list.length > 0) {
     posts.push(list.splice(0, 20))
   }
-  // console.log(dynasty)
+  console.log('dynasty', posts)
 
   return {
     posts,
     take,
     count,
     keyword,
-    type,
   }
 }
