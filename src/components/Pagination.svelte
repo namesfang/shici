@@ -5,6 +5,7 @@
     text: string;
     page: number;
     dot: boolean;
+    url: string;
     active?: boolean;
   }
 
@@ -12,132 +13,84 @@
   export let take = 20;
   // 总条数
   export let count = 0;
-  // 跳转地址
-  export let url: string;
 
-  export let pagesCount = 0;
-
-  const pagesTotal = 9;
+  // 分页最多放几个
+  const pagerMax = 9;
   
+  // 总页数
   let pageCount: number;
+  // 当前页码
   let pageCurrent: number;
+  // 上一个访问的页码
   let pageVisited: number;
 
-  const pages: Item[] = []
+  let pager: Item[] = []
 
-  $: {
-    pages.splice(0)
-    
-    // 访问记录
-    pageVisited = pageCurrent
-    // 总页数
-    pageCount = count > 0 ? Math.ceil(count / take) : 0;
-    // 当前页码
-    pageCurrent = Number($page.url.searchParams.get('page') ?? 1);
+  const searchParams = $page.url.searchParams
 
-    console.log('ddd', pageCurrent)
-
-    // 第一页
-    if(pageCount > 1) {
-      pages.push({
-        dot: false,
-        page: 1,
-        text: String(1),
-      })
-    }
-
-    if(pageCount <= pagesTotal) {
-      for(let i=2; i<pageCount; i++) {
-        pages.push({
-          dot: false,
-          page: i,
-          text: String(i)
-        })
-      }
-    } else {
-      // 1 2 3 4 5 6 7 8 . 9
-      // 1 . 4 5 6 7 8 . 18
-      // 1 . 13 14 15 16 17 18
-      if(pageCurrent < pagesTotal - 2) {
-        for(let i=2; i<pagesTotal - 1; i++) {
-          pages.push({
-            dot: false,
-            page: i,
-            text: String(i)
-          })
-        }
-        // 
-        pages.push({
-          dot: true,
-          page: 0,
-          text: '...'
-        })
-        console.log('pages1', pages)
-      } else if(pageCurrent > pageCount - 2) {
-        // 
-        pages.push({
-          dot: true,
-          page: 0,
-          text: '...'
-        })
-        for(let i=pageCount - pagesTotal + 2; i<pageCount; i++) {
-          pages.push({
-            dot: false,
-            page: i,
-            text: String(i)
-          })
-        }
-        console.log('pages2', pages)
-      } else {
-        pages.push({
-          dot: true,
-          page: 0,
-          text: '...'
-        })
-        for(let i=pageCurrent-3; i<=pageCurrent + 3; i++) {
-          pages.push({
-            dot: false,
-            page: i,
-            text: String(i)
-          })
-        }
-        pages.push({
-          dot: true,
-          page: 0,
-          text: '...'
-        })
-      }
-    }
-
-    // 最后一页
-    if(pageCount > 1) {
-      pages.push({
-        dot: false,
-        page: pageCount,
-        text: String(pageCount),
-      })
-    }
-
-    pagesCount = pages.length
+  const pushPager = (page: number, dot = false)=> {
+    searchParams.set('page', String(page))
+    pager.push({
+      dot,
+      page,
+      text: dot ? '...' : String(page),
+      url: dot ? '' : searchParams.toString()
+    })
   }
 
-  console.log(typeof pages, 'pages./')
+  // 访问记录
+  $: pageVisited = pageCurrent
+  // 总页数
+  $: pageCount = count > 0 ? Math.ceil(count / take) : 0;
+  // 当前页码
+  $: pageCurrent = Number(searchParams.get('page') ?? 1);
+
+  console.log(pageCount, 'co')
+
+  if(pageCount <= pagerMax) {
+    for(let i=1; i<=pageCount; i++) {
+      pushPager(i)
+    }
+  } else {
+    // 1 2 3 4 5 6 7 8 . 9
+    // 1 . 4 5 6 7 8 . 18
+    // 1 . 13 14 15 16 17 18
+    if(pageCurrent < pagerMax - 2) {
+      for(let i=1; i<pagerMax - 1; i++) {
+        pushPager(i)
+      }
+      // 
+      pushPager(0, true)
+    } else if(pageCurrent > pageCount - 2) {
+      // 
+      pushPager(0, true)
+      for(let i=pageCount - pagerMax + 2; i<pageCount; i++) {
+        pushPager(i)
+      }
+    } else {
+      pushPager(0, true)
+      for(let i=pageCurrent-3; i<=pageCurrent + 3; i++) {
+        pushPager(i)
+      }
+      pushPager(0, true)
+    }
+  }
 </script>
-{#if pages.length > 1}
+{#if pager.length > 1}
   <div class="pagination">
     <p>共{count}条，每页{take}条，共{pageCount}页</p>
     <form>
       <input type="number" name="page" placeholder="跳转"/>
     </form>
     <ul>
-      {#each pages as item}
+      {#each pager as item}
         {#if pageCurrent == item.page}
           <li class="active">
             <span>{item.text}</span>
           </li>
         {:else if false === item.dot }
           <li>
-            <a href="{url}?page={item.page}">{item.text}</a>
+            <a href={item.url}>{item.text}</a>
           </li>
         {:else}
           <li>
