@@ -14,7 +14,7 @@
     <ul>
       {#each list as t, i}
       <li>
-        <a href="/{t.dynastyId}/{t.id}">{index * 20 + i+1}. {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
+        <a href="/{t.dynastyId}/{t.id}">{index * 20 + i+1}. {t.author.fullname} • {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
       </li>
       {/each}
     </ul>
@@ -29,11 +29,11 @@
 <style lang="scss">
   .posts {
     width: 1200px;
-    display: flex;
-    align-items: center;
+    display: grid;
+    grid-template-rows: 1;
+    grid-template-columns: repeat(4, 25%);
     margin: 40px auto;
     ul {
-      flex: 1;
       li {
         a {
           line-height: 36px;

@@ -1,24 +1,12 @@
 <script lang="ts">
+  import { page } from '$app/stores'
 
 	import Icon from "./Icon.svelte";
 	import Select from "./Select.svelte";
 
-  let type = 3;
+  let type = 'content';
 
-  let options = [
-    {
-      value: 1,
-      label: '诗词标题'
-    },
-    {
-      value: 2,
-      label: '诗词作者'
-    },
-    {
-      value: 3,
-      label: '诗词内容'
-    }
-  ]
+  let options = $page.data.locals.dict.search_type;
 
   $: action = `/search/${type}`
 </script>
