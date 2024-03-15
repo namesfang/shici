@@ -1,8 +1,7 @@
 import { client } from "$lib/prisma"
 
-export const prerender = false;
-
 export const load = async({ locals })=> {
+  // 获取导航
   const list = await client.dynasty.findMany()
 
   list.unshift({
