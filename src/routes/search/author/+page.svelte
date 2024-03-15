@@ -15,14 +15,11 @@
     keyword = data.keyword ?? ''
     title = keyword ? `“${keyword}”诗词作者搜索结果` : ''
   }
-
 </script>
-
 
 <svelte:head>
   <title>{title}|{data.locals.title}</title>
 </svelte:head>
-
 
 <SearchToolbar {title} {keyword}/>
 
@@ -33,9 +30,9 @@
     <ul>
       {#each data.list as t, index}
       <li>
-        <a href="/{t.dynastyId}/{t.id}">
+        <a href="/author/{t.id}">
           <h2>{index + 1}. {@html t.fullname.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</h2>
-          <p>{t.profiles}</p>
+          <p>{t.profiles ? t.profiles : '暂无作者简介'}</p>
         </a>
       </li>
       {/each}
@@ -47,7 +44,7 @@
   </div>
 {/if}
   
-<Pagination count={data.count} url="" take={20}/>
+<Pagination count={data.count}/>
 
 <style lang="scss" scoped>
 

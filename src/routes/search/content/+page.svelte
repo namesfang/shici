@@ -45,7 +45,7 @@
   </div>
 {/if}
   
-<Pagination count={data.count} url="" take={60}/>
+<Pagination count={data.count} take={60}/>
 
 <style lang="scss" scoped>
 

@@ -28,8 +28,8 @@
 
 <SearchToolbar {title} {keyword}/>
 
-<Tabs type="title" {items}/>
+<Tabs type="title" {keyword} {items}/>
 
 <PoetryResults {keyword} {posts}/>
   
-<Pagination count={data.count} url="" take={80}/>
+<Pagination count={data.count} take={80}/>

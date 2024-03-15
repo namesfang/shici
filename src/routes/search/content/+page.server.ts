@@ -38,7 +38,6 @@ export async function load({ url }) {
   while(list.length > 0) {
     posts.push(list.splice(0, 20))
   }
-  console.log('dynasty', posts)
 
   return {
     posts,

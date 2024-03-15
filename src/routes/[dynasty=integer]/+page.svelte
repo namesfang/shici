@@ -21,4 +21,4 @@
 
 <PoetryResults posts={data.posts} {keyword}/>
   
-<Pagination count={data.count} url={`/${data.dynasty.id}`} take={80}/>
+<Pagination count={data.count} take={80}/>

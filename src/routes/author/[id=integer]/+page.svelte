@@ -23,4 +23,4 @@
 
 <PoetryResults bind:posts={data.posts} {keyword} />
 
-<Pagination count={data.count} url={`/author/${author.id}`} take={80}/>
+<Pagination count={data.count} take={80}/>
