@@ -1,3 +1,4 @@
+import { client } from "$lib/prisma";
 import { redirect, type Handle, type RequestEvent } from "@sveltejs/kit";
 // import { building } from "$app/environment";
 // import { PUBLIC_STATIC_URL } from "$env/static/public";
@@ -29,10 +30,51 @@ const replaceAll = (html: string, event: RequestEvent)=> {
   return html
 }
 
-export const handle: Handle = async ({ event, resolve })=> {
+const getDict = async()=> {
+  //
+  // 获取字典
+  //
+  const result = await client.dict.findMany({
+    where: {
+      enabled: true
+    },
+    orderBy: [
+      {
+        id: 'asc',
+      },
+      {
+        orderNumber: 'asc' 
+      }
+    ]
+  })
 
+  const dict: DictMap = {};
+
+  result.forEach(({key, parentId})=> {
+    if(null === parentId) {
+      dict[key] = []
+    }
+  })
+
+  result.forEach(({key, value, label, parentId})=> {
+    if(dict[key] && null !== parentId) {
+      dict[key].push({
+        value,
+        label
+      })
+    }
+  })
+
+  return dict;
+}
+
+export const handle: Handle = async ({ event, resolve })=> {
+  const title = '中华诗词网'
+  const dict = await getDict()
+  
   event.locals = {
-    title: '中华诗词网'
+    dict,
+    title
   }
 
   // "/[fallback]" 是sveltekit内部build时需要
