@@ -17,8 +17,8 @@
   <title>{title}|{data.locals.title}</title>
 </svelte:head>
 
-<SearchToolbar title={title} bind:keyword={keyword}/>
+<SearchToolbar {title} {keyword}/>
 
-<PoetryResults bind:posts={data.posts} bind:keyword={keyword}/>
+<PoetryResults posts={data.posts} {keyword}/>
   
 <Pagination count={data.count} url={`/${data.dynasty.id}`} take={80}/>

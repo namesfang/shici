@@ -37,6 +37,9 @@ export async function load({ params, url }) {
     where,
     take,
     skip,
+    include: {
+      author: true
+    }
   })
 
   const count = await client.post.count({
