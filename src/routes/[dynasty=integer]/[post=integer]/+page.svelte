@@ -14,25 +14,31 @@
 
   let visible = false
   let formVisible = false
+  let svgHtml = ''
 
   $: author = data.detail?.author
   $: dynasty = data.detail?.dynasty
 
+  // 获取验证码接口
+  const fetchCaptcha = async ()=> {
+    svgHtml = await (await fetch('/api/captcha')).text()
+  }
+
+  $: if(formVisible) {
+    form.content = ''
+    form.captcha = ''
+
+    fetchCaptcha()
+  }
+
   const starred = true
 
-  const types = [
-    {
-      label: '诗词作者',
-      value: 1,
-    },
-    {
-      label: '诗词内容',
-      value: 2,
-    }
-  ]
+  const types = data.locals.dict.correction_type
+
   const form = {
     type: 2,
     content: '',
+    captcha: '',
     postId: data.detail.id,
   }
 
@@ -73,10 +79,13 @@
     const { msg, code } = await result.json()
 
     if(0 === code) {
-      form.content = ''
       close()
     }
     toast(msg, code > 0)
+  }
+
+  const refresh = ()=> {
+    fetchCaptcha()
   }
 </script>
 
@@ -124,6 +133,12 @@
   <ul class="form">
     <li>
       <Select options={types} bind:value={form.type}/>
+    </li>
+    <li>
+      <input type="text" bind:value={form.captcha} maxlength="4" placeholder="请输入验证码"/>
+      <button on:click={ refresh } type="button" title="点击刷新验证码">
+        {@html svgHtml}
+      </button>
     </li>
     <li>
       <textarea bind:value={form.content} placeholder="内容描述10~500个字"></textarea>
@@ -261,8 +276,16 @@
     width: 320px;
     height: 300px;
     li {
+      width: 100%;
       font-size: 0;
       margin-bottom: 20px;
+
+      &:nth-child(2) {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
       &:last-child {
         margin-bottom: 0;
       }
@@ -272,18 +295,35 @@
         font-size: 14px;
         color: var(--primary-700);
       }
+
+      button {
+        height: 32px;
+        border: 0;
+        background-color: transparent;
+        background-color: var(--primary-200);
+        border-radius: 5px;
+        cursor: pointer;
+      }
+
+      input {
+        height: 20px;
+      }
+
+      input,
       textarea {
-        width: 300px;
-        height: 200px;
-        resize: none;
         padding: 5px 10px;
         border-radius: 4px;
         border: 1px solid var(--gray-300);
-
         &:focus {
           border-color: var(--primary-700);
           outline: 2px solid var(--primary-700);
         }
+      }
+
+      textarea {
+        width: 300px;
+        height: 200px;
+        resize: none;
       }
     }
   }

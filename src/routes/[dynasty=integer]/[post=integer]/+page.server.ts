@@ -25,6 +25,7 @@ export async function load({ params }) {
 
   const contents = []
 
+  // 诗词内容分页
   while(detail.contents.length > 0) {
     contents.push(detail.contents.splice(0, 2))
   }
