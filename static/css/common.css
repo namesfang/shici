@@ -24,6 +24,17 @@
   --primary-100: #fff5f5;
   --primary-50: #fffafa;
 
+  --warning-900: #ffad16;
+  --warning-800: #ffb52c;
+  --warning-700: #ffc04a;
+  --warning-600: #ffc863;
+  --warning-500: #ffc250;
+  --warning-400: #ffc65d;
+  --warning-300: #ffd587;
+  --warning-200: #ffe5b5;
+  --warning-100: #fff5e2;
+  --warning-50: #fffaf0;
+
   --success-900: #16ff16;
   --success-800: #26ff26;
   --success-700: #40ff40;
