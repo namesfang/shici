@@ -6,16 +6,24 @@
 
   let type = 'content';
 
+  let keyword = ''
   let options = $page.data.locals.dict.search_type;
 
   $: action = `/search/${type}`
+
+  // 用户未输入关键词禁用跳转
+  const validate = (e: SubmitEvent)=> {
+    if(keyword.length === 0) {
+      e.preventDefault()
+    }
+  }
 </script>
 
-<form { action } style="--height: 46px">
+<form on:submit={ validate } { action } style="--height: 46px">
   <div>
     <Select large bind:options={ options } bind:value={ type }/>
   </div>
-  <input name="keyword" autocomplete="off" type="text" placeholder="输入关键字搜索"/>
+  <input name="keyword" bind:value={keyword} autocomplete="off" type="text" placeholder="输入关键字搜索"/>
   <button type="submit">
     <Icon type="search" medium/>
   </button>
