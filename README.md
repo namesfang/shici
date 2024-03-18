@@ -1,18 +1,12 @@
-# create-svelte
+# 中华诗词
 
-Everything you need to build a Svelte project, powered by [`create-svelte`](https://github.com/sveltejs/kit/tree/main/packages/create-svelte).
+中华诗词收录了上至先秦，下至当代共计六万余首诗词，完全免费并开放所有诗词内容和程序源代码，您可自由复制、修改、传播诗词内容和程序源码
+数据来源[`michaelliao-shci`](https://github.com/michaelliao/shici/).
 
-## Creating a project
-
-If you're seeing this, you've probably already done this step. Congrats!
-
-```bash
-# create a new project in the current directory
-npm create svelte@latest
-
-# create a new project in my-app
-npm create svelte@latest my-app
-```
+#### 技术栈
+1. 数据库使用 sqlite;
+2. ORM 使用 prisma
+3. 框架 sveltekit4
 
 ## Developing
 
@@ -34,5 +28,3 @@ npm run build
 ```
 
 You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
