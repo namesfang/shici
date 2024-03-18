@@ -22,10 +22,10 @@ export function toast(message: string, fail=true) {
     line-height: 46px;
     font-size: 14px;
     color: var(--${fail?'white':'black'});
-    border: 1px solid rgba(0,0,0,.3);
+    border: 1px solid rgba(0,0,0,.1);
     padding: 0 24px;
-    background-color: var(--${fail ? 'primary' : 'success'}-900);
-    box-shadow: 0 0 12px var(--${fail ? 'primary' : 'success'}-900);
+    background-color: var(--${fail ? 'warning' : 'success'}-900);
+    box-shadow: 0 0 12px var(--${fail ? 'warning' : 'success'}-900);
     border-radius: 23px;
   `
 
