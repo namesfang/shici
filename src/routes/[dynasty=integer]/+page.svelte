@@ -20,5 +20,5 @@
 <SearchToolbar {title} {keyword}/>
 
 <PoetryResults posts={data.posts} {keyword}/>
-  
+
 <Pagination count={data.count} take={80}/>
