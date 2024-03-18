@@ -31,6 +31,7 @@
     width: 1200px;
     height: auto;
     overflow: hidden;
+    min-height: calc(100vh - var(--height-header) - var(--height-footer) - 80px - 64px);
     margin: 40px auto;
     ul {
       width: 287px;
