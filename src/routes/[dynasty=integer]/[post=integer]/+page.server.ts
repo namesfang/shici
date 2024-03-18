@@ -21,8 +21,6 @@ export async function load({ params }) {
     throw error(404, 'Not Found');
   }
 
-  console.log(detail.contents, '‘ddd')
-
   const contents = []
 
   // 诗词内容分页
