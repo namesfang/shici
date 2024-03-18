@@ -54,6 +54,7 @@ export async function load({ params, url }) {
   // console.log(dynasty)
 
   return {
+    page,
     posts,
     take,
     count,

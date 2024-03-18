@@ -5,7 +5,7 @@ import { error } from "@sveltejs/kit";
 export async function load({ url }) {
 
   const take = 60
-  const page = url.searchParams.get('page');
+  const page = Number(url.searchParams.get('page') ?? 1);
   const skip = (Number(page ?? 1) - 1) * take;
 
   const keyword = url.searchParams.get('keyword');
@@ -33,14 +33,15 @@ export async function load({ url }) {
     where
   })
 
-  const posts = []
+  const contents = []
 
   while(list.length > 0) {
-    posts.push(list.splice(0, 20))
+    contents.push(list.splice(0, 20))
   }
 
   return {
-    posts,
+    page,
+    contents,
     take,
     count,
     keyword,

@@ -12,6 +12,10 @@
 
   $: title = `${data.dynasty.name}诗词列表`
 
+  $: pageCurrent = Number(data.page ?? 1)
+  $: posts = data.posts
+  $: count = data.count
+
 </script>
 <svelte:head>
   <title>{title}|{data.locals.title}</title>
@@ -19,6 +23,6 @@
 
 <SearchToolbar {title} {keyword}/>
 
-<PoetryResults posts={data.posts} {keyword}/>
+<PoetryResults {posts} {keyword}/>
 
-<Pagination count={data.count} take={80}/>
+<Pagination {pageCurrent} {count} take={80}/>

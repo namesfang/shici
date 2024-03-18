@@ -6,8 +6,11 @@
 
   export let keyword: string;
 
+  export let withTabs = false;
+
 </script>
 
+<div style={withTabs?'--height-tab: 116px':'--height-tab: 0px'}>
 {#if posts.length > 0}
   <div class="posts">
     {#each posts as list, index}
@@ -25,6 +28,7 @@
     <Empty tips={`未搜索到“${keyword}”相关诗词`}/>
   </div>
 {/if}
+</div>
 
 <style lang="scss">
   .posts {
@@ -42,26 +46,24 @@
       }
       li {
         width: 100%;
-
+        line-height: 38px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         a {
-          display: block;
-          line-height: 38px;
-          font-size: 15px;
-          color: var(--gray-900);
+          font-size: 16px;
+          color: var(--gray-700);
           position: relative;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
 
           span {
-            color: var(--gray-300);
+            color: var(--gray-400);
           }
           
           &:hover {
-            color: var(--primary-900);
-            span {
-              color: var(--primary-900);
-            }
+            // color: var(--primary-900);
+            // span {
+            //   color: var(--primary-900);
+            // }
             &::after {
               content: "";
               position: absolute;
@@ -78,6 +80,6 @@
 
   .empty {
     display: flex;
-    height: calc(100vh - var(--height-header) - var(--height-footer) - 64px);
+    height: calc(100vh - var(--height-header) - var(--height-footer) - var(--height-tab) - 64px);
   }
 </style>

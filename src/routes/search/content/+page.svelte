@@ -7,15 +7,13 @@
   //
   export let data;
 
-  let title = ''
-  let keyword = ''
-
   const items = data.locals.dict.search_type
 
-  $: {
-    keyword = data.keyword ?? ''
-    title = keyword ? `“${keyword}”诗词内容搜索结果` : ''
-  }
+  $: keyword = data.keyword ?? ''
+  $: title = keyword ? `“${keyword}”诗词内容搜索结果` : ''
+
+  $: pageCurrent = data.page
+  $: count = data.count
 </script>
 
 
@@ -27,13 +25,13 @@
 
 <Tabs type="content" {keyword} {items}/>
 
-{#if data.posts.length > 0}
+{#if data.contents.length > 0}
   <div class="posts">
-    {#each data.posts as list, index}
+    {#each data.contents as list, index}
     <ul>
       {#each list as t, i}
       <li>
-        <a href="/{t.post.dynastyId}/{t.post.id}">{index * 20 + i+1}. {t.post.title} • {@html t.content.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
+        <a href="/{t.post.dynastyId}/{t.post.id}"><span>{index * 20 + i+1}</span>. {t.post.title} • {@html t.content.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
       </li>
       {/each}
     </ul>
@@ -45,26 +43,39 @@
   </div>
 {/if}
   
-<Pagination count={data.count} take={60}/>
+<Pagination {pageCurrent} {count} take={60}/>
 
 <style lang="scss" scoped>
 
   .empty {
     display: flex;
-    height: calc(100vh - var(--height-header) - var(--height-footer) - 64px);
+    height: calc(100vh - var(--height-header) - var(--height-footer) - 64px - 116px);
   }
 
   .posts {
     width: 1200px;
-    display: flex;
+    height: auto;
+    overflow: hidden;
     margin: 20px auto;
     ul {
-      flex: 1;
+      width: 380px;
+      height: auto;
+      float: left;
+      margin-right: 30px;
+      &:last-child {
+        margin: 0;
+      }
       li {
         a {
           line-height: 36px;
-          font-size: 14px;
+          font-size: 16px;
           position: relative;
+          color: var(--gray-700);
+
+          span {
+            color: var(--gray-400);
+          }
+
           &:hover {
             &::after {
               content: "";

@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { page } from "$app/stores";
   import Pagination from "$component/Pagination.svelte";
 	import PoetryResults from '$component/PoetryResults.svelte';
 	import SearchToolbar from '$component/SearchToolbar.svelte';
@@ -9,16 +10,11 @@
 
   const items = data.locals.dict.search_type
 
-  let title = ''
-  let keyword = ''
-  let posts: any[] = []
-
-  $: {
-    posts = data.posts
-    keyword = data.keyword ?? ''
-    title = keyword ? `“${keyword}”标题搜索结果` : ''
-  }
-
+  $: posts = data.posts
+  $: keyword = data.keyword ?? ''
+  $: title = keyword ? `“${keyword}”标题搜索结果` : ''
+  $: pageCurrent = data.page
+  $: count = data.count
 </script>
 
 
@@ -30,6 +26,6 @@
 
 <Tabs type="title" {keyword} {items}/>
 
-<PoetryResults {keyword} {posts}/>
+<PoetryResults {keyword} {posts} withTabs={true}/>
   
-<Pagination count={data.count} take={80}/>
+<Pagination {pageCurrent} {count} take={80}/>

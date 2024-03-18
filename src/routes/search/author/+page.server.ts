@@ -5,7 +5,7 @@ import { error } from "@sveltejs/kit";
 export async function load({ url }) {
 
   const take = 20
-  const page = url.searchParams.get('page');
+  const page = Number(url.searchParams.get('page') ?? 1);
   const skip = (Number(page ?? 1) - 1) * take;
 
   const keyword = url.searchParams.get('keyword');
@@ -31,6 +31,7 @@ export async function load({ url }) {
   })
 
   return {
+    page,
     list,
     take,
     count,
