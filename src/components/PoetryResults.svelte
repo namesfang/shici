@@ -14,7 +14,7 @@
     <ul>
       {#each list as t, i}
       <li>
-        <a href="/{t.dynastyId}/{t.id}">{index * 20 + i+1}. {t.author.fullname} • {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
+        <a href="/{t.dynastyId}/{t.id}" title={t.title}><span>{index * 20 + i+1}.</span> {t.author.fullname} • {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
       </li>
       {/each}
     </ul>
@@ -29,17 +29,38 @@
 <style lang="scss">
   .posts {
     width: 1200px;
-    display: grid;
-    grid-template-rows: 1;
-    grid-template-columns: repeat(4, 25%);
+    height: auto;
+    overflow: hidden;
     margin: 40px auto;
     ul {
+      width: 287px;
+      float: left;
+      margin-right: 17px;
+      &:last-child {
+        margin-right: 0;
+      }
       li {
+        width: 100%;
+
         a {
-          line-height: 36px;
-          font-size: 14px;
+          display: block;
+          line-height: 38px;
+          font-size: 15px;
+          color: var(--gray-900);
           position: relative;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+
+          span {
+            color: var(--gray-300);
+          }
+          
           &:hover {
+            color: var(--primary-900);
+            span {
+              color: var(--primary-900);
+            }
             &::after {
               content: "";
               position: absolute;
@@ -47,7 +68,6 @@
               right: 0;
               bottom: -3px;
               border-bottom: 2px solid var(--primary-900);
-              transition: all .5;
             }
           }
         }
