@@ -62,11 +62,6 @@
 
   const dispatch = createEventDispatcher()
 
-  const closeHandle = ()=> {
-    dispatch('close')
-    visible = false
-  }
-
   const confirmHandle = ()=> {
     if(typeof mergeConfirmOptions.action === 'string') {
       const url = actions[mergeConfirmOptions.action]
@@ -193,7 +188,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 16px 20px;
+      padding: 16px 24px;
       ul {
         display: flex;
         li {
