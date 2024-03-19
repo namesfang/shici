@@ -25,6 +25,18 @@
   }
 </script>
 
+<svelte:head>
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?ae4dc02033780c1e6c33e9963af4bcda";
+      var s = document.getElementsByTagName("script")[0]; 
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+</svelte:head>
+
 <header class={className}>
   <div class="placeholder"></div>
   <div class="inner">
