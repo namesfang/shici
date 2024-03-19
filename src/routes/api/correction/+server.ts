@@ -12,7 +12,8 @@ export async function POST({ request, locals }) {
     })
   }
 
-  const text = await (await redisClient()).get(`captcha:${locals.sessionid}`)
+  const redis = await redisClient()
+  const text = await redis.get(`captcha:${locals.sessionid}`)
 
   if(!text) {
     return json({
@@ -27,6 +28,8 @@ export async function POST({ request, locals }) {
       code: 1,
     })
   }
+
+  await redis.disconnect();
 
   try {
     await client.correction.create({

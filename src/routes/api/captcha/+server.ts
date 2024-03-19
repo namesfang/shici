@@ -9,9 +9,13 @@ export async function GET({ locals }) {
     noise: 10
   })
 
-  await (await client()).set(`captcha:${locals.sessionid}`, text, {
+  const redis = await client()
+  
+  await redis.set(`captcha:${locals.sessionid}`, text, {
     EX: 300
   })
+
+  await redis.disconnect();
 
   return new Response(data)
 }
