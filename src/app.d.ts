@@ -10,18 +10,20 @@ declare global {
 	type DictMap = {
 		[key: string]: CommonItem[]
 	}
+
+	type User = {
+		id: number,
+		fullname: string,
+		adm: boolean,
+		createAt: string
+	}
 	
 	namespace App {
 		// interface Error {}
 		interface Locals {
 			title: string
 			dict: DictMap
-			user?: {
-				id: number,
-				fullname: string,
-				adm: boolean,
-				createAt: string
-			}
+			user: User | null
 		}
 		// interface PageData {}
 		// interface PageState {}
