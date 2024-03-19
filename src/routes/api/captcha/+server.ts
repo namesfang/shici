@@ -1,7 +1,7 @@
 import captcha from 'svg-captcha'
 import { client } from '$lib/redis'
 
-export async function GET({ cookies }) {
+export async function GET({ locals }) {
 
   const { text , data } = captcha.create({
     width: 150,
@@ -9,14 +9,7 @@ export async function GET({ cookies }) {
     noise: 10
   })
 
-  const sessionid = cookies.get('sessionid')
-  if(!sessionid) {
-    cookies.set('sessionid', crypto.randomUUID(), {
-      path: '/'
-    })
-  }
-
-  await (await client()).set(`captcha:${sessionid}`, text, {
+  await (await client()).set(`captcha:${locals.sessionid}`, text, {
     EX: 300
   })
 

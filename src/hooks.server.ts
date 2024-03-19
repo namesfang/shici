@@ -84,9 +84,9 @@ const getUser = async (sessionid: string)=> {
 }
 
 export const handle: Handle = async ({ event, resolve })=> {
-  const sessionid = crypto.randomUUID()
-  if(!event.cookies.get(sessionid)) {
-    event.cookies.set('sessionid', sessionid, {
+  let sessionid = event.cookies.get('sessionid')
+  if(!sessionid) {
+    event.cookies.set('sessionid', sessionid = crypto.randomUUID(), {
       path: '/'
     })
   }
@@ -98,7 +98,8 @@ export const handle: Handle = async ({ event, resolve })=> {
   event.locals = {
     dict,
     user,
-    title
+    title,
+    sessionid
   }
 
   // "/[fallback]" 是sveltekit内部build时需要
@@ -109,7 +110,7 @@ export const handle: Handle = async ({ event, resolve })=> {
 
   // 鉴权
   const { pathname } = event.url;
-
+  
   if(user) {
     // 登录后不允许再访问登录和注册页面
     if(['/login', '/signup'].includes(pathname)) {
