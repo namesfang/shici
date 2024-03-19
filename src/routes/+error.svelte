@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from '$app/environment'
-  import { replaceState } from '$app/navigation'
+	import { goto } from '$app/navigation';
   import { page } from "$app/stores";
 
   type Err = {
@@ -12,27 +12,18 @@
     404: '页面未找到'
   }
 
-  let message = ''
-  let tips = '系统在3秒后自动跳转到首页'
+  $: message = errors[status] ?? '系统错误'
 
-  $: {
-    message = errors[status] ?? '系统错误'
-  }
+  let seconds = 2;
 
   if(browser) {
-    let seconds = 2;
-    const timer = setInterval(()=> {
-      tips = `系统在${seconds}秒后自动跳转到首页`
+    setInterval(async ()=> {
       seconds --
       if(seconds < 0) {
-        replaceState('/', {
-          status: 302
-        })
-        clearInterval(timer)
+        await goto('/')
       }
     }, 1000)
   }
-
 </script>
 
 <div class="wrapper">
@@ -41,7 +32,10 @@
       <h2>{message}</h2>
       <p>{$page.error?.message}</p>
     </div>
-    <p>{tips}</p>
+    <p>系统在{seconds}秒后自动跳转到首页</p>
+    <div class="back">
+      <button on:click={ ()=> history.back() } type="button">返回</button>
+    </div>
   </div>
 </div>
 
@@ -58,6 +52,19 @@
         text-align: center;
         color: var(--gray-400);
       }
+      .back {
+        display: flex;
+        justify-content: center;
+        button {
+          width: 80px;
+          height: 32px;
+          color: var(--primary-900);
+          border: 0;
+          border-radius: 4px;
+          background-color: var(--gray-200);
+        }
+      }
+      
       .message {
         width: 480px;
         border-radius: 10px;
