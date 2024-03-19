@@ -46,11 +46,11 @@
       <!--
       {#if data.list.length == 0}
         <a href="/login" class="avatar">
-          <img src="/images/logo-72.jpg" alt="avatar" class="offline"/>
+          <Logo small className="offline"/>
         </a>
       {:else}
         <a href="/user/favorites" class="avatar">
-          <img src="/images/logo-72.jpg" alt="avatar"/>
+          <Logo small />
         </a>
       {/if}
       -->
@@ -161,12 +161,12 @@
           width: 32px;
           height: 32px;
           margin-left: 20px;
-          img {
+          :global(img) {
             width: 100%;
             display: block;
             border-radius: 50%;
           }
-          .offline {
+          :global(.offline) {
             filter: grayscale(1);
             opacity: 0.5;
           }
