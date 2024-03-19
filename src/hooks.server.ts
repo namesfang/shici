@@ -1,4 +1,5 @@
 import { client } from "$lib/prisma";
+import { client as redisClient } from "$lib/redis";
 import { redirect, type Handle, type RequestEvent } from "@sveltejs/kit";
 // import { building } from "$app/environment";
 // import { PUBLIC_STATIC_URL } from "$env/static/public";
@@ -68,44 +69,58 @@ const getDict = async()=> {
   return dict;
 }
 
+const getUser = async (sessionid: string)=> {
+  const data = await (await redisClient()).get(`user:${sessionid}`)
+
+  if(data) {
+    return {
+      id: 1,
+      fullname: '',
+      adm: false,
+      createAt: ''
+    }
+  }
+  return null
+}
+
 export const handle: Handle = async ({ event, resolve })=> {
+  const sessionid = crypto.randomUUID()
+  if(!event.cookies.get(sessionid)) {
+    event.cookies.set('sessionid', sessionid, {
+      path: '/'
+    })
+  }
+
   const title = '中华诗词网'
   const dict = await getDict()
+  const user = await getUser(sessionid)
   
   event.locals = {
     dict,
+    user,
     title
   }
 
   // "/[fallback]" 是sveltekit内部build时需要
-  if(!event.url.pathname.includes('/[fallback]')) {
-    // 鉴权
-    const path = event.url.pathname;
-    const token = event.cookies.get('session');
-    const passport = ['/login', '/signup'];
-    if(token) {
-      // 登录后不允许再访问登录和注册页面
-      if(passport.includes(path)) {
-        throw redirect(302, '/');
-      }
-      const success = true;
-      if(success) {
-        event.locals = {
-          ...event.locals,
-          user: {
-            id: 0,
-            fullname: '',
-            adm: false,
-            createAt: ''
-          },
-        };
-      }
-    } else {
-      if(path.indexOf('/user') === 0) {
-        throw redirect(302, '/login')
-      }
+  // console.log('event.url.pathname', event.url.pathname)
+  // if(event.url.pathname.includes('/[fallback]')) {
+  //   return resolve(event)
+  // }
+
+  // 鉴权
+  const { pathname } = event.url;
+
+  if(user) {
+    // 登录后不允许再访问登录和注册页面
+    if(['/login', '/signup'].includes(pathname)) {
+      throw redirect(302, '/');
+    }
+  } else {
+    if(pathname.indexOf('/user') === 0) {
+      throw redirect(302, '/login')
     }
   }
+
   return resolve(event)
 
   // 替换
