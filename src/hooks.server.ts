@@ -70,17 +70,20 @@ const getDict = async()=> {
 }
 
 const getUser = async (sessionid: string)=> {
-  const data = await (await redisClient()).get(`user:${sessionid}`)
+  const redis = await redisClient()
+  const [id, fullname, adm, createAt] = await redis.hmGet(`user:${sessionid}`, ['id', 'fullname', 'adm', 'createAt'])
 
-  if(data) {
-    return {
-      id: 1,
-      fullname: '',
-      adm: false,
-      createAt: ''
-    }
+  redis.disconnect()
+
+  if(null === id) {
+    return null
   }
-  return null
+  return {
+    id: Number(id),
+    fullname,
+    adm: adm === '1',
+    createAt
+  }
 }
 
 export const handle: Handle = async ({ event, resolve })=> {
