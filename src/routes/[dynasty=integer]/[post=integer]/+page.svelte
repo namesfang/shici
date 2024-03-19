@@ -25,6 +25,8 @@
   }
 
   $: if(formVisible) {
+    message = ''
+    
     form.content = ''
     form.captcha = ''
 
@@ -67,6 +69,7 @@
   }
 
   const confirm = async (close: ()=> void)=> {
+    message = ''
     if(form.content.length < 10 || form.content.length > 500) {
       message = '内容描述10~500个字'
       return
@@ -82,10 +85,6 @@
       close()
     }
     toast(msg, code > 0)
-  }
-
-  const refresh = ()=> {
-    fetchCaptcha()
   }
 </script>
 
@@ -135,8 +134,8 @@
       <Select options={types} bind:value={form.type}/>
     </li>
     <li>
-      <input type="text" bind:value={form.captcha} maxlength="4" placeholder="请输入验证码"/>
-      <button on:click={ refresh } type="button" title="点击刷新验证码">
+      <input type="text" bind:value={form.captcha} maxlength="4" placeholder="验证码"/>
+      <button on:click={ fetchCaptcha } type="button" title="点击刷新验证码">
         {@html svgHtml}
       </button>
     </li>
@@ -284,10 +283,18 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
-      }
+        input {
+          width: 130px;
+        }
 
-      &:last-child {
-        margin-bottom: 0;
+        button {
+          width: 150px;
+          height: 32px;
+          border: 0;
+          background-color: transparent;
+          border-radius: 5px;
+          cursor: pointer;
+        }
       }
 
       p {
@@ -296,22 +303,13 @@
         color: var(--primary-700);
       }
 
-      button {
-        height: 32px;
-        border: 0;
-        background-color: transparent;
-        background-color: var(--primary-200);
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
       input {
         height: 20px;
       }
 
       input,
       textarea {
-        padding: 5px 10px;
+        padding: 5px 9px;
         border-radius: 4px;
         border: 1px solid var(--gray-300);
         &:focus {
