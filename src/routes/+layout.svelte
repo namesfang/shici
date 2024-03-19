@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { debounce } from 'throttle-debounce'
   import { page } from '$app/stores';
-  import { browser } from '$app/environment';
+  import { browser, building } from '$app/environment';
+  import { debounce } from 'throttle-debounce'
 
 	import Icon from '$component/Icon.svelte';
 	import Logo from '$component/Logo.svelte';
@@ -26,15 +26,17 @@
 </script>
 
 <svelte:head>
-  <script>
-    var _hmt = _hmt || [];
-    (function() {
-      var hm = document.createElement("script");
-      hm.src = "https://hm.baidu.com/hm.js?ae4dc02033780c1e6c33e9963af4bcda";
-      var s = document.getElementsByTagName("script")[0]; 
-      s.parentNode.insertBefore(hm, s);
-    })();
-  </script>
+  {#if building}
+    <script>
+      var _hmt = _hmt || [];
+      (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?ae4dc02033780c1e6c33e9963af4bcda";
+        var s = document.getElementsByTagName("script")[0]; 
+        s.parentNode.insertBefore(hm, s);
+      })();
+    </script>
+  {/if}
 </svelte:head>
 
 <header class={className}>
@@ -50,22 +52,20 @@
       <ul>
         {#each data.links as { id, name }}
           {@const href = `/${id > 0 ? id : ''}` }
-          <li class={$page.url.pathname === href ? 'active' : ''}>
+          <li class:active={$page.url.pathname === href}>
             <a {href}>{name}</a>
           </li>
         {/each}
       </ul>
-      <!--
-      {#if data.list.length == 0}
+      {#if null === data.locals.user}
         <a href="/login" class="avatar">
           <Logo small className="offline"/>
         </a>
       {:else}
-        <a href="/user/favorites" class="avatar">
+        <a href="/user" class="avatar">
           <Logo small />
         </a>
       {/if}
-      -->
     </div>
   </div>
 </header>
