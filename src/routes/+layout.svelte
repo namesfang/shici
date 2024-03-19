@@ -35,7 +35,7 @@
     </div>
     <div class="east">
       <ul>
-        {#each data.list as { id, name }}
+        {#each data.links as { id, name }}
         {#if dynasty === id}
           <li class="active">
             <a href="/{id > 0 ? id : ''}">{name}</a>
@@ -71,7 +71,7 @@
     <span>{data.locals.title}&copy;{now}</span>
     <a class="underline" rel="nofollow" href="https://beian.miit.gov.cn/">皖ICP备19011029号-12</a>
   </p>
-  <p>中华诗词收录了上至先秦，下至当代共计六万余首诗词，完全免费并开放所有诗词内容和程序源代码，您可自由复制、修改、传播诗词内容和程序源码。<a class="underline" rel="nofollow" href="https://github.com/michaelliao/shici/">数据来源</a></p>
+  <p>中华诗词收录了上至先秦下至当代，共计{data.postCount}首诗词，{data.authorCount}位诗人；完全免费并开放所有诗词内容和程序源代码，您可自由复制、修改、传播诗词内容和程序源码。<a class="underline" rel="nofollow" href="https://github.com/michaelliao/shici/">数据来源</a></p>
   <p>
     <a rel="nofollow" href="https://github.com/namesfang/shici">
       <Icon type="github-fill" medium/>
