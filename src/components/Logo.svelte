@@ -5,6 +5,7 @@
   export let large = false;
   export let medium = false;
   export let small = false;
+  export let className = ''
 
   let src = '';
   $: {
@@ -22,4 +23,4 @@
   }
 </script>
 
-<img {src} alt={$page.data.locals.title} title={$page.data.locals.title}/>
+<img {src} alt={$page.data.locals.title} title={$page.data.locals.title} class={className}/>
