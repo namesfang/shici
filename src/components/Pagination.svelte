@@ -1,5 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
+	import { throttle } from "throttle-debounce";
   
   type Item = {
     text: string;
@@ -21,6 +22,9 @@
   
   const searchParams = $page.url.searchParams
 
+  //
+  let typing = ''
+
   // 总页数
   let pageCount: number = 0;
 
@@ -40,7 +44,7 @@
   $: {
     
     // 总页数
-    pageCount = count > 0 ? Math.ceil(count / take) : 0; console.log('pagecount')
+    pageCount = count > 0 ? Math.ceil(count / take) : 0;
 
     //
     const newPager = []
@@ -90,15 +94,37 @@
     }
     pager = [...newPager]
   }
+
+  const d = throttle(500, (inputElement: HTMLInputElement)=> {
+    
+    if(null === typing) {
+      return
+    }
+
+    inputElement?.blur()
+
+    const value = Number(typing.toString().replace(/^[^\d]$/, ''))
+
+    typing = Math.max(Math.min(pageCount, value), 1).toString()
+
+    setTimeout(()=> inputElement?.focus())
+  })
+
+
+  const keyup = ({ target }: KeyboardEvent)=> {
+    d(target as HTMLInputElement)
+  }
 </script>
 
 {#if count > 0}
 <div class="pagination">
   <p>共{count}条，每页{take}条，共{pageCount}页</p>
   {#if pager.length > 1}
+    {#if pageCount > pagerMax}
     <form>
-      <input type="number" name="page" placeholder="跳转"/>
+      <input on:keyup={ keyup } type="number" name="page" step="1" bind:value={typing} placeholder="跳转"/>
     </form>
+    {/if}
     <ul>
       {#each pager as item}
         {#if pageCurrent == item.page}
@@ -132,7 +158,7 @@
       color: var(--gray-700);
     }
     form {
-      padding: 0 20px;
+      padding-left: 20px;
       input {
         width: 50px;
         height: 30px;
@@ -149,6 +175,7 @@
 
     ul {
       display: flex;
+      margin-left: 20px;
       li {
         a, span {
           height: 32px;
