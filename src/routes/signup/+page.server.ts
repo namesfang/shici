@@ -34,7 +34,8 @@ export const actions = {
 
       const captcha = data.get('captcha') as string;
 
-      const text = await (await redisClient()).get(`captcha:${locals.sessionid}`)
+      const redis = await redisClient()
+      const text = await redis.get(`captcha:${locals.sessionid}`)
 
       if(!text) {
         return fail(422, {
@@ -47,6 +48,8 @@ export const actions = {
           errors: ['验证码不正确']
         })
       }
+
+      await redis.disconnect()
 
       const fullname = data.get('fullname') as string;
 
