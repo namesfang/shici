@@ -1,13 +1,16 @@
 <script lang="ts">
-  export let title: string;
   export let keyword: string;
+  export let title: string = '';
+  export let placeholder = '搜索诗词标题';
 </script>
 
 <div class="toolbar">
   <div class="inner">
-    <h2>{title}</h2>
+    <h2>
+      <slot>{title}</slot>
+    </h2>
     <form>
-      <input type="text" name="keyword" placeholder="搜索诗词标题" bind:value={ keyword }/>
+      <input type="text" name="keyword" {placeholder} bind:value={ keyword }/>
       <button type="submit">搜索</button>
     </form>
   </div>
