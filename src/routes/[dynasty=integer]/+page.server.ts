@@ -53,7 +53,15 @@ export async function load({ params, url }) {
   }
   // console.log(dynasty)
 
+  // 诗人
+  const authorCount = await client.author.count({
+    where: {
+      dynastyId
+    }
+  })
+
   return {
+    authorCount,
     page,
     posts,
     take,

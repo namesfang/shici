@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Empty from '$component/Empty.svelte';
   import Pagination from "$component/Pagination.svelte";
 
   import { page } from '$app/stores'
@@ -10,7 +9,7 @@
 
   let keyword = $page.url.searchParams.get('keyword') ?? ''
 
-  $: title = `${data.dynasty.name}诗词列表`
+  $: title = `${data.dynasty.name}诗词`
 
   $: pageCurrent = Number(data.page ?? 1)
   $: posts = data.posts
@@ -21,7 +20,10 @@
   <title>{title}|{data.locals.title}</title>
 </svelte:head>
 
-<SearchToolbar {title} {keyword}/>
+<SearchToolbar {keyword}>
+  {title}
+  (<a href="/author?dynasty=${data.dynasty.id}">{data.authorCount}名诗人</a>)
+</SearchToolbar>
 
 <PoetryResults {posts} {keyword}/>
 
