@@ -19,7 +19,7 @@
   }
 </script>
 
-<form on:submit={ validate } { action } style="--height: 46px">
+<form on:submit={ validate } { action } style="--height: 46px; --padding: 2px">
   <div>
     <Select large bind:options={ options } bind:value={ type }/>
   </div>
@@ -60,16 +60,22 @@
     }
 
     button {
-      width: var(--height);
-      height: var(--height);
+      width: calc(var(--height) - var(--padding) * 2);
+      height: calc(var(--height) - var(--padding) * 2);
       border: 0;
-      border-radius: 5px;
+      border-radius: 3px;
       background-color: transparent;
       position: absolute;
-      inset: 1px;
+      inset: calc(var(--padding) + 1px);
       left: inherit;
       :global(i) {
         color: var(--gray-300);
+      }
+      &:active {
+        background-color: var(--gray-200);
+        :global(i) {
+          color: var(--gray-500);
+        }
       }
     }
   }
