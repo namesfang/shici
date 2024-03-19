@@ -21,8 +21,7 @@
 </svelte:head>
 
 <SearchToolbar {keyword}>
-  {title}
-  (<a href="/author?dynasty=${data.dynasty.id}">{data.authorCount}名诗人</a>)
+  {title} (<a href="/author?dynasty={data.dynasty.id}">{data.authorCount}名诗人</a>)
 </SearchToolbar>
 
 <PoetryResults {posts} {keyword}/>
