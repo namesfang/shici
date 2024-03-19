@@ -16,8 +16,10 @@
 		"@sveltejs/adapter-node": "^4.0.1",
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^3.0.0",
+		"@types/bcrypt": "^5.0.2",
 		"@types/eslint": "8.56.0",
 		"@types/node": "^20.11.24",
+		"@types/qrcode": "^1.5.5",
 		"@types/redis": "^4.0.11",
 		"@types/throttle-debounce": "^5.0.2",
 		"@typescript-eslint/eslint-plugin": "^6.0.0",
@@ -39,6 +41,7 @@
 	"dependencies": {
 		"@prisma/client": "^5.10.2",
 		"bcrypt": "^5.1.1",
+		"qrcode": "^1.5.3",
 		"redis": "^4.6.13",
 		"svg-captcha": "^1.4.0",
 		"throttle-debounce": "^5.0.0"
