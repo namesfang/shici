@@ -1,7 +1,8 @@
 <script lang="ts">
+  import { debounce } from 'throttle-debounce'
   import { page } from '$app/stores';
   import { browser } from '$app/environment';
-  import { debounce } from 'throttle-debounce'
+
 	import Icon from '$component/Icon.svelte';
 	import Logo from '$component/Logo.svelte';
 
@@ -12,7 +13,7 @@
   let dynasty: number;
   
   $: {
-    dynasty = Number($page.params.dynasty ? $page.params.dynasty : 0)
+    dynasty = Number($page.params.dynasty ?? 0)
   }
 
   const scrolling = debounce(200, ()=> {
@@ -36,15 +37,10 @@
     <div class="east">
       <ul>
         {#each data.links as { id, name }}
-        {#if dynasty === id}
-          <li class="active">
-            <a href="/{id > 0 ? id : ''}">{name}</a>
+          {@const href = `/${id > 0 ? id : ''}` }
+          <li class={$page.url.pathname === href ? 'active' : ''}>
+            <a {href}>{name}</a>
           </li>
-        {:else}
-          <li>
-            <a href="/{id > 0 ? id : ''}">{name}</a>
-          </li>
-          {/if}
         {/each}
       </ul>
       <!--
