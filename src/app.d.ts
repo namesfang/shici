@@ -24,6 +24,7 @@ declare global {
 			title: string
 			dict: DictMap
 			user: User | null
+			sessionid: string
 		}
 		// interface PageData {}
 		// interface PageState {}
