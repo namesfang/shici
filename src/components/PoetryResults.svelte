@@ -17,7 +17,7 @@
     <ul>
       {#each list as t, i}
       <li>
-        <a href="/{t.dynastyId}/{t.id}" title={t.title}><span>{index * 20 + i+1}.</span> {t.author.fullname} • {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
+        <a href="/{t.dynastyId}/{t.id}" title={t.title}><span>{index * 20 + i+1}.</span> {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)} <span>{t.author.fullname}</span></a>
       </li>
       {/each}
     </ul>
