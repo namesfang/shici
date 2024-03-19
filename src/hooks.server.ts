@@ -97,7 +97,8 @@ export const handle: Handle = async ({ event, resolve })=> {
   const title = '中华诗词网'
   const dict = await getDict()
   const user = await getUser(sessionid)
-  
+  const { pathname } = event.url;
+
   event.locals = {
     dict,
     user,
@@ -112,7 +113,6 @@ export const handle: Handle = async ({ event, resolve })=> {
   // }
 
   // 鉴权
-  const { pathname } = event.url;
   
   if(user) {
     // 登录后不允许再访问登录和注册页面
