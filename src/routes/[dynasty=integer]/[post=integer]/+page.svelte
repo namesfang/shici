@@ -126,7 +126,7 @@
 </div>
 
 <!--/ 收藏未登录提示 /-->
-<Dialog bind:visible={visible} confirmText="立即登录" confirmAction="login" content="你未登录，请登录后再收藏此文" />
+<Dialog bind:visible={visible} confirmText="立即登录" confirmAction="login" confirmRedirect={false} content="你未登录，请登录后再收藏此文" />
 
 <!--/ 纠错表单弹窗 /-->
 <Dialog bind:visible={formVisible} title="我要纠错" confirmText="提交" confirmAction={confirm}>
