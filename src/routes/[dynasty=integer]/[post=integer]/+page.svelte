@@ -48,10 +48,10 @@
 
   const addFavrite = async ()=> {
 
-    // if(!data.locals?.user?.id) {
-    //   visible = true
-    //   return
-    // }
+    if(!data.locals?.user?.id) {
+      visible = true
+      return
+    }
 
     const result = await fetch('/api/favorite', {
       method: 'POST',
