@@ -57,7 +57,7 @@
 
 <style lang="scss">
   .login-wrapper {
-    height: calc(100vh - var(--height-header) - var(--height-footer));
+    height: var(--height-wrapper);
     display: flex;
     align-items: center;
     justify-content: center;

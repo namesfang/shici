@@ -27,7 +27,7 @@
 
 <style lang="scss">
   .wrapper {
-    min-height: calc(100vh - var(--height-header) - var(--height-footer));
+    min-height: var(--height-wrapper);
     display: flex;
     padding: 24px;
     box-sizing: border-box;
