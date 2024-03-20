@@ -15,7 +15,7 @@
 </script>
 
 <div class="wrapper">
-  <p>已退出系统, {seconds}s 跳转到首页</p>
+  <p>已退出系统, {seconds}s <a href="/">跳转到首页</a></p>
 </div>
 
 <style lang="scss">
