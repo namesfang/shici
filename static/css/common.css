@@ -48,6 +48,7 @@
 
   --height-header: 64px;
   --height-footer: 212px;
+  --height-wrapper: calc(100vh - var(--height-header) - var(--height-footer))
 }
 
 * {
