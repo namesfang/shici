@@ -33,51 +33,53 @@ export const actions = {
 
     const captcha = data.get('captcha') as string;
 
-    const redis = await redisClient()
-
-    const text = await redis.get(`captcha:${locals.sessionid}`)
-
-    if(!text) {
-      return fail(422, {
-        errors: ['验证码异常']
-      })
-    }
-
-    if(text.toLowerCase() !== captcha.toLowerCase()) {
-      return fail(422, {
-        errors: ['验证码不正确']
-      })
-    }
-
-    const info = await client.user.findFirst({
-      where: {
-        fullname: data.get('fullname') as string,
-        frozen: false
+    try {
+      const redis = await redisClient()
+      const text = await redis.get(`captcha:${locals.sessionid}`)
+      if(!text) {
+        return fail(422, {
+          errors: ['验证码异常']
+        })
       }
-    });
+      if(text.toLowerCase() !== captcha.toLowerCase()) {
+        return fail(422, {
+          errors: ['验证码不正确']
+        })
+      }
 
-    if(null === info) {
+      const info = await client.user.findFirst({
+        where: {
+          fullname: data.get('fullname') as string,
+          frozen: false
+        }
+      });
+
+      if(null === info) {
+        return fail(422, {
+          errors: ['系统未找到此账号']
+        })
+      }
+      const password = data.get('password') as string;
+
+      if(!compareSync(password, info.hash)) {
+        return fail(422, {
+          errors: ['系统未找到此账号']
+        })
+      }
+
+      await redis.hSet(`user:${locals.sessionid}`, {
+        id: info.id,
+        fullname: info.fullname,
+        adm: info.adm ? 1 : 0,
+        createAt: info.createdAt.toString()
+      })
+
+      await redis.disconnect();
+    } catch (error) {
       return fail(422, {
-        errors: ['系统未找到此账号']
+        errors: ['系统未找到此账号:'+JSON.stringify(error)]
       })
     }
-    const password = data.get('password') as string;
-
-    if(!compareSync(password, info.hash)) {
-      return fail(422, {
-        errors: ['系统未找到此账号']
-      })
-    }
-
-    await redis.hSet(`user:${locals.sessionid}`, {
-      id: info.id,
-      fullname: info.fullname,
-      adm: info.adm ? 1 : 0,
-      createAt: info.createdAt.toString()
-    })
-
-    await redis.disconnect();
-
     return redirect(302, '/user')
   }
 }
