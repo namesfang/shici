@@ -26,6 +26,14 @@
         label: '诗词管理',
         href: '/user/posts'
       },
+      {
+        label: '用户管理',
+        href: '/user/users'
+      },
+      {
+        label: '系统配置',
+        href: '/user/configuration'
+      },
     ])
   }
 
