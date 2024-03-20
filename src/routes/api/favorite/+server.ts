@@ -1,7 +1,7 @@
 import { client } from '$lib/prisma.js'
 import { json } from '@sveltejs/kit'
 
-export async function POST({ request }) {
+export async function POST({ request, locals }) {
   const { postId } = await request.json()
 
   if(!postId) {
@@ -11,7 +11,7 @@ export async function POST({ request }) {
     })
   }
 
-  const userId = 1;
+  const userId = locals.user!.id;
 
   try {
     const info = await client.userFavorite.findFirst({
@@ -29,7 +29,8 @@ export async function POST({ request }) {
       })
       return json({
         code: 0,
-        msg: '已取消收藏'
+        msg: '已取消收藏',
+        isStarred: false
       })
     }
 
@@ -42,7 +43,8 @@ export async function POST({ request }) {
 
     return json({
       code: 0,
-      msg: '已收藏'
+      msg: '已收藏',
+      isStarred: true
     })
   } catch (error) {
     return json({

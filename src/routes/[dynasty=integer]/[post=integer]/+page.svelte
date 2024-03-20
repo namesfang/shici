@@ -33,7 +33,7 @@
     fetchCaptcha()
   }
 
-  const starred = true
+  let starred = data.favCount > 0
 
   const types = data.locals.dict.correction_type
 
@@ -60,10 +60,11 @@
       })
     })
 
-    const { msg, code } = await result.json()
+    const { msg, code, isStarred } = await result.json()
 
     if(0 === code) {
       close()
+      starred = isStarred as boolean
     }
     toast(msg, code > 0)
   }
@@ -242,7 +243,7 @@
           padding: 0 12px 0 0;
           cursor: pointer;
           &+button {
-            margin-left: 20px;
+            margin-left: 40px;
           }
 
           :global(i) {
