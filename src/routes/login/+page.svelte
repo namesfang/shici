@@ -29,7 +29,7 @@
         <Logo small/>
       </div>
       <div class="md">
-        <input name="fullname" type="text" placeholder="账号" autocomplete="off"/>
+        <input name="fullname" autofocus type="text" placeholder="账号" autocomplete="off"/>
         <input name="password" type="password" placeholder="密码"/>
       </div>
       <div class="rp">
