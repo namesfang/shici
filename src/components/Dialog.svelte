@@ -60,16 +60,14 @@
     redirect: cancelOptions.redirect ?? cancelRedirect,
   }
 
-  const dispatch = createEventDispatcher()
-
-  const confirmHandle = ()=> {
-    if(typeof mergeConfirmOptions.action === 'string') {
-      const url = actions[mergeConfirmOptions.action]
-      if(Object.keys(actions).includes(mergeConfirmOptions.action)) {
-        mergeConfirmOptions.redirect ? replaceState(url, {}) : pushState(url, {})
+  const dispatch = (options: Options)=> {
+    if(typeof options.action === 'string') {
+      if(Object.keys(actions).includes(options.action)) {
+        visible = false
+        options.redirect ? location.replace(actions[options.action]) : (location.href = actions[options.action])
       }
-    } else if (typeof mergeConfirmOptions.action === 'function') {
-      mergeConfirmOptions.action(()=> {
+    } else if (typeof options.action === 'function') {
+      options.action(()=> {
         visible = false
       })
     } else {
@@ -77,19 +75,12 @@
     }
   }
 
+  const confirmHandle = ()=> {
+    dispatch(mergeConfirmOptions)
+  }
+
   const cancelHandle = ()=> {
-    if(typeof mergeCancelOptions.action === 'string') {
-      const url = actions[mergeCancelOptions.action]
-      if(Object.keys(actions).includes(mergeCancelOptions.action)) {
-        mergeCancelOptions.redirect ? replaceState(url, {}) : pushState(url, {})
-      }
-    } else if (typeof mergeCancelOptions.action === 'function') {
-      mergeCancelOptions.action(()=> {
-        visible = false
-      })
-    } else {
-      visible = false
-    }
+    dispatch(mergeCancelOptions)
   }
 </script>
 {#if visible}
