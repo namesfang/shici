@@ -11,7 +11,7 @@ export async function POST({ request, locals }) {
     })
   }
 
-  const userId = locals.user!.id;
+  const userId = locals.user?.id ?? 0;
 
   try {
     const info = await client.userFavorite.findFirst({
