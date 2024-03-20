@@ -90,7 +90,8 @@ export const handle: Handle = async ({ event, resolve })=> {
   let sessionid = event.cookies.get('sessionid')
   if(!sessionid) {
     event.cookies.set('sessionid', sessionid = crypto.randomUUID(), {
-      path: '/'
+      path: '/',
+      sameSite: 'none'
     })
   }
 
