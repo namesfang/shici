@@ -30,7 +30,7 @@ export async function load({ params, locals }) {
 
   // 是否已收藏
   let favCount = 0;
-  if(locals.user?.id) {
+  if(locals.user) {
     favCount = await client.userFavorite.count({
       where: {
         userId: locals.user.id,
