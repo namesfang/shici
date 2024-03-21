@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { page } from '$app/stores';
+
   import { toast } from '$lib/broswer'
 
 	import Dialog from '$component/Dialog.svelte';
@@ -70,11 +72,15 @@
   }
 
   const confirm = async (close: ()=> void)=> {
-    message = ''
-    if(form.content.length < 10 || form.content.length > 500) {
-      message = '内容描述10~500个字'
+    if(form.captcha.length != 4) {
+      toast('验证码输入错误')
       return
     }
+    if(form.content.length < 10 || form.content.length > 500) {
+      toast('内容描述10~500个字')
+      return
+    }
+
     const result = await fetch('/api/correction', {
       method: 'POST',
       body: JSON.stringify(form)
@@ -85,7 +91,12 @@
     if(0 === code) {
       close()
     }
+
     toast(msg, code > 0)
+  }
+
+  const redirectUrl = ()=> {
+    location.href = `/login?redirectURI=${encodeURIComponent($page.url.pathname)}`
   }
 </script>
 
@@ -126,7 +137,7 @@
 </div>
 
 <!--/ 收藏未登录提示 /-->
-<Dialog bind:visible={visible} confirmText="立即登录" confirmAction="login" confirmRedirect={false} content="你未登录，请登录后再收藏此文" />
+<Dialog bind:visible={visible} confirmText="立即登录" confirmAction={ redirectUrl } confirmRedirect={false} content="你未登录，请登录后再收藏此文" />
 
 <!--/ 纠错表单弹窗 /-->
 <Dialog bind:visible={formVisible} title="我要纠错" confirmText="提交" confirmAction={confirm}>
