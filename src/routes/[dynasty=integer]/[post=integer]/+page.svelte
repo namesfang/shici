@@ -251,7 +251,7 @@
           align-items: center;
           justify-content: center;
           border: 0;
-          padding: 0 12px 0 0;
+          padding: 0 15px;
           cursor: pointer;
           &+button {
             margin-left: 40px;
@@ -259,9 +259,6 @@
 
           :global(i) {
             color: var(--gray-500);
-            background-color: var(--gray-200);
-            border-radius: 50%;
-            padding: 5px;
             margin-right: 5px;
           }
 
@@ -275,8 +272,7 @@
 
         .starred {
           :global(i) {
-            color: var(--white);
-            background-color: var(--primary-500);
+            color: var(--primary-500);
           }
         }
       }
