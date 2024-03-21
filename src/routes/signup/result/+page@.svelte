@@ -2,4 +2,4 @@
 	import ResultPage from "$component/ResultPage.svelte";
 </script>
 
-<ResultPage desc="已退出系统"/>
+<ResultPage desc="注册成功" pageName="登录页面" redirect="/login"/>
