@@ -1,5 +1,6 @@
 <script lang="ts">
 	import Logo from "$component/Logo.svelte";
+	import { notBlank } from "$lib/broswer.js";
 
 	import { onMount } from "svelte";
 
@@ -8,10 +9,24 @@
 
   $: locals = data.locals
 
+  const shadow = {
+    fullname: '',
+    password: '',
+    captcha: ''
+  }
+
   // 获取验证码接口
   let svgHtml = '';
   const fetchCaptcha = async ()=> {
     svgHtml = await (await fetch('/api/captcha')).text()
+  }
+
+  const verification = (event: SubmitEvent)=> {
+    notBlank(event, shadow, {
+      fullname: '账号',
+      password: '密码',
+      captcha: '验证码'
+    })
   }
 
   onMount(()=> {
@@ -24,19 +39,20 @@
 </svelte:head>
 
 <div class="login-wrapper">
-    <form method="post">
+    <form on:submit={ verification } method="POST">
       <div class="hd">
         <Logo small/>
       </div>
       <div class="md">
-        <input name="fullname" autofocus type="text" placeholder="账号" autocomplete="off"/>
-        <input name="password" type="password" placeholder="密码"/>
+        <!-- svelte-ignore a11y-autofocus -->
+        <input bind:value={ shadow.fullname } name="fullname" autofocus type="text" placeholder="账号" autocomplete="off"/>
+        <input bind:value={ shadow.password } name="password" type="password" placeholder="密码"/>
       </div>
       <div class="rp">
         <a href="/reset-password">忘记密码?</a>
       </div>
       <div class="pt">
-        <input name="captcha" type="text" maxlength="4" placeholder="验证码"/>
+        <input bind:value={ shadow.captcha } name="captcha" type="text" maxlength="4" placeholder="验证码"/>
         <button on:click={ fetchCaptcha } type="button" title="点击刷新验证码">
           {@html svgHtml}
         </button>

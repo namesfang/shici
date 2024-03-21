@@ -1,7 +1,8 @@
 <script lang="ts">
-	import Logo from "$component/Logo.svelte";
-
 	import { onMount } from "svelte";
+	import { notBlank } from "$lib/broswer.js";
+
+	import Logo from "$component/Logo.svelte";
 
   export let data;
   export let form;
@@ -14,6 +15,19 @@
     svgHtml = await (await fetch('/api/captcha')).text()
   }
 
+  const shadow = {
+    fullname: '',
+    password: '',
+    captcha: ''
+  }
+  const verification = async (event: SubmitEvent)=> {
+    notBlank(event, shadow, {
+      fullname: '账号',
+      password: '密码',
+      captcha: '验证码'
+    })
+  }
+
   onMount(()=> {
     fetchCaptcha()
   })
@@ -24,16 +38,16 @@
 </svelte:head>
 
 <div class="login-wrapper">
-    <form method="post">
+    <form on:submit={ verification } method="POST">
       <div class="hd">
         <Logo small/>
       </div>
       <div class="md">
-        <input name="fullname" type="text" placeholder="账号" autocomplete="off"/>
-        <input name="password" type="password" placeholder="密码"/>
+        <input bind:value={ shadow.fullname} name="fullname" type="text" placeholder="账号" autocomplete="off"/>
+        <input bind:value={ shadow.password} name="password" type="password" placeholder="密码"/>
       </div>
       <div class="pt">
-        <input name="captcha" type="text" maxlength="4" placeholder="验证码"/>
+        <input bind:value={ shadow.captcha} name="captcha" type="text" maxlength="4" placeholder="验证码"/>
         <button on:click={ fetchCaptcha } type="button" title="点击刷新验证码">
           {@html svgHtml}
         </button>
