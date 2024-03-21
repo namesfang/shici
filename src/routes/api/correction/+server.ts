@@ -1,5 +1,5 @@
+import { captchaValidator } from '$lib'
 import { client } from '$lib/prisma'
-import { client as redisClient } from '$lib/redis'
 import { json } from '@sveltejs/kit'
 
 export async function POST({ request, locals }) {
@@ -12,24 +12,14 @@ export async function POST({ request, locals }) {
     })
   }
 
-  const redis = await redisClient()
-  const text = await redis.get(`captcha:${locals.sessionid}`)
-
-  if(!text) {
+  // 校验验证码
+  const error = await captchaValidator(locals.sessionid, captcha)
+  if(error) {
     return json({
-      msg: '验证码异常',
-      code: 1,
+      msg: error,
+      code: 1
     })
   }
-  
-  if(text.toLowerCase() !== captcha.toLowerCase()) {
-    return json({
-      msg: '验证码不正确',
-      code: 1,
-    })
-  }
-
-  await redis.disconnect();
 
   try {
     await client.correction.create({
