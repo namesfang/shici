@@ -1,11 +1,6 @@
 <script lang="ts">
 	import Icon from "./Icon.svelte";
 
-	import { pushState, replaceState } from "$app/navigation";
-
-  import { createEventDispatcher } from "svelte";
-  
-
   type Callback = (close: ()=> void)=> void
   type Action = Callback | 'login' | 'signup' | null
 
