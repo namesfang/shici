@@ -17,7 +17,7 @@
 </script>
 
 {#if href.length > 0}
-  <a { href } class={ className } style:--height={ small ? '20px' : '32px' }>
+  <a { href } class={ className } style:--height={ small ? '20px' : '32px' } style:--font-size={ small ? '12px' : '14px' }>
     {#if icon}
       <Icon type={icon} small/>
     {/if}
