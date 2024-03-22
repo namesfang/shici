@@ -3,7 +3,8 @@
  * @param message 提示的消息
  * @param fail 默认为错误提示
  */
-export function toast(message: string | string[], fail=true) {
+type ToastDoneCallback = null | ((fail: boolean)=> void);
+export function toast(message: string | string[], fail=true, done: ToastDoneCallback = null) {
   const id = `toast_${Math.random().toString().substring(2)}`
   const full = document.createElement('div')
   const inner = document.createElement('div')
@@ -30,16 +31,17 @@ export function toast(message: string | string[], fail=true) {
     line-height: 26px;
     text-align: center;
     font-size: 14px;
-    color: var(--${fail?'white':'black'});
+    color: var(--white);
     border: 1px solid rgba(0, 0, 0, .1);
     padding: 12px 24px;
     background-color: var(--${fail ? 'warning' : 'success'}-900);
     box-shadow: 0 0 12px var(--${fail ? 'warning' : 'success'}-900);
-    border-radius: 23px;
+    border-radius: 25px;
     position: fixed;
     top: 7px;
     left: 50%;
     translate: -50%;
+    z-index: 9999;
   `
 
   full.setAttribute('id', id)
@@ -53,6 +55,7 @@ export function toast(message: string | string[], fail=true) {
     if(element) {
       document.body.removeChild(element)
     }
+    done && done(fail)
   }, 3000)
 }
 
