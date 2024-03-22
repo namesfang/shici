@@ -46,6 +46,7 @@
     border-radius: 4px;
     background-color: var(--gray-100);
     position: relative;
+
     &:active {
       &::after {
         content: "";
@@ -69,7 +70,13 @@
     }
   }
 
+  .warning {
+    color: #fff;
+    background-color: var(--warning-900);
+  }
+
   .success {
-    background-color: var(--success-700);
+    color: #fff;
+    background-color: var(--success-900);
   }
 </style>
