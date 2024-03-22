@@ -1,3 +1,4 @@
+import { hashSync } from "bcrypt";
 import { client } from "./redis";
 
 /**
@@ -41,7 +42,7 @@ export function notBlank(data: FormData, labels: Labels) {
 
   type Name = keyof typeof labels
 
-  const messages = [];
+  const messages: string[] = [];
 
   let name: Name;
   for(name in labels) {
@@ -63,10 +64,10 @@ export function notBlank(data: FormData, labels: Labels) {
   return messages
 }
 
-type SerializeFormDataScalar = string | number | boolean
-type SerializeFormDataArray = SerializeFormDataScalar[]
+export type SerializeFormDataScalar = string | number | boolean
+export type SerializeFormDataArray = SerializeFormDataScalar[]
 
-type SerializeFormData = object & {
+export type SerializeFormData = object & {
   [key: string]: SerializeFormDataScalar | SerializeFormDataArray
 }
 
@@ -98,4 +99,13 @@ export function serializeFormData(form: FormData): SerializeFormData {
   }
 
   return data;
+}
+
+/**
+ * 生成密码
+ * @param text 
+ * @returns 
+ */
+export function hashPassword(text: string) {
+  return hashSync(text, 5)
 }
