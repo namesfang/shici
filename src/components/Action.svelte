@@ -11,9 +11,10 @@
 
   export let primary = false;
   export let success = false;
+  export let warning = false;
   export let type: Type = 'button';
 
-  $: className = primary ? 'primary' : (success ? 'success' : '')
+  $: className = primary ? 'primary' : (success ? 'success' : (warning ? 'warning' : ''))
 </script>
 
 {#if href.length > 0}
