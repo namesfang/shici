@@ -5,8 +5,10 @@ export async function GET({ locals }) {
 
   const { text , data } = captcha.create({
     width: 150,
-    height: 32,
-    noise: 10
+    height: 46,
+    noise: 4,
+    color: true,
+    ignoreChars: '1,i,l,o'
   })
 
   const redis = await client()
