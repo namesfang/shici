@@ -22,10 +22,10 @@
 
   if(data.locals.user?.adm) {
     links.push([
-      {
-        label: '诗词管理',
-        href: '/user/posts'
-      },
+      // {
+      //   label: '诗词管理',
+      //   href: '/user/posts'
+      // },
       {
         label: '用户管理',
         href: '/user/users'
@@ -126,6 +126,8 @@
   .main {
     flex: 1;
     padding: 0 30px;
+    display: flex;
+    flex-direction: column;
     h1 {
       height: 36px;
       line-height: 36px;
