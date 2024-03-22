@@ -1,35 +1,7 @@
 import { client } from "$lib/prisma";
 import { client as redisClient } from "$lib/redis";
-import { redirect, type Handle, type RequestEvent } from "@sveltejs/kit";
-// import { building } from "$app/environment";
-// import { PUBLIC_STATIC_URL } from "$env/static/public";
+import { redirect, type Handle } from "@sveltejs/kit";
 
-type replaceStack = [string, (event: RequestEvent)=> string]
-
-/**
- * 替换HTML
- * @param html 页面内容
- * @param event 事件
- * @returns 
- */
-const replaceAll = (html: string, event: RequestEvent)=> {
-  const stacks: replaceStack[] = [
-    // CDN资源
-    [
-      '%cdn.assets%',
-      (event: RequestEvent)=> {
-        return event.url.origin;
-      }
-    ]
-  ];
-
-  // 遍历替换
-  stacks.forEach(([name, callback])=> {
-    html = html.replaceAll(name, callback(event))
-  })
-
-  return html
-}
 
 const getDict = async()=> {
   //
@@ -86,6 +58,26 @@ const getUser = async (sessionid: string)=> {
   }
 }
 
+const getAccountControl = async()=> {
+  // 登录和注册配置
+  const config = await client.configuration.findFirst({
+    where: {
+      key: 'account_control'
+    }
+  })
+
+  const accountControl = {
+    signup_enable: true,
+    login_enable: true
+  }
+  if(config) {
+    const parsed = JSON.parse(config.value)
+    accountControl.login_enable = parsed.data.login_enable
+    accountControl.signup_enable = parsed.data.signup_enable
+  }
+  return accountControl
+}
+
 export const handle: Handle = async ({ event, resolve })=> {
   let sessionid = event.cookies.get('sessionid')
   if(!sessionid) {
@@ -98,13 +90,16 @@ export const handle: Handle = async ({ event, resolve })=> {
   const title = '中华诗词网'
   const dict = await getDict()
   const user = await getUser(sessionid)
+  const control = await getAccountControl()
+
   const { pathname } = event.url;
 
   event.locals = {
     dict,
     user,
     title,
-    sessionid
+    sessionid,
+    control
   }
 
   // "/[fallback]" 是sveltekit内部build时需要
@@ -122,14 +117,9 @@ export const handle: Handle = async ({ event, resolve })=> {
     }
   } else {
     if(pathname.indexOf('/user') === 0) {
-      throw redirect(302, '/login')
+      throw redirect(302, control.login_enable ? '/login' : '/')
     }
   }
 
   return resolve(event)
-
-  // 替换
-  return resolve(event, {
-    transformPageChunk: ({ html })=> replaceAll(html, event),
-  });
 }
