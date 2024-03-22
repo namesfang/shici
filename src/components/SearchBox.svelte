@@ -41,7 +41,7 @@
     
     input {
       width: 320px;
-      height: var(--height);
+      height: var(--height - 2px);
       padding: 0 0 0 12px;
       background-color: var(--white);
       font-size: 14px;
@@ -60,8 +60,8 @@
     }
 
     button {
-      width: calc(var(--height) - var(--padding) * 2);
-      height: calc(var(--height) - var(--padding) * 2);
+      width: calc(var(--height) - 2px - var(--padding) * 2);
+      height: calc(var(--height) - 2px - var(--padding) * 2);
       border: 0;
       border-radius: 3px;
       background-color: transparent;
