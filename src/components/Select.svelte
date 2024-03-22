@@ -38,7 +38,7 @@
 
   $: label = options.find((t)=> t.value == value)?.label ?? ''
 
-  $: height = large ? '48px' : (medium ? '32px' : (small ? '24px' : '24px'))
+  $: height = large ? '46px' : (medium ? '32px' : (small ? '24px' : '24px'))
 
   onMount(()=> {
     document.body.addEventListener('click', ({ target }: MouseEvent)=> {
