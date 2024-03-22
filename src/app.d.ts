@@ -1,6 +1,9 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
 declare global {
+	type ScalarObject = {
+		[key: string]: string | number | boolean
+	}
 
 	type CommonItem = {
 		value: string;
@@ -24,7 +27,11 @@ declare global {
 			title: string
 			dict: DictMap
 			user: User | null
-			sessionid: string
+			sessionid: string,
+			control: {
+				login_enable: boolean;
+				signup_enable: boolean;
+			}
 		}
 		// interface PageData {}
 		// interface PageState {}
