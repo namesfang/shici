@@ -149,3 +149,11 @@ model Dict {
   parent     Dict?  @relation("parent", fields: [parentId], references: [id])
   attributes Dict[] @relation("parent")
 }
+
+model Configuration {
+  id    Int    @id @default(autoincrement())
+  key   String
+  label String
+  value String
+  desc  String @default("")
+}
