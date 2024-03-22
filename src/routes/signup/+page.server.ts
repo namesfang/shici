@@ -1,7 +1,6 @@
 import { fail, redirect } from "@sveltejs/kit"
 import { client } from "$lib/prisma"
-import { hashSync } from 'bcrypt'
-import { captchaValidator, notBlank } from "$lib"
+import { captchaValidator, hashPassword, notBlank } from "$lib"
 
 export const actions = {
   async default({ request, locals }) {
@@ -32,7 +31,6 @@ export const actions = {
     // 是否有重名的
     const where = {
       fullname,
-      frozen: false
     }
     if (await client.user.count({ where })) {
       return fail(422, {
@@ -50,7 +48,7 @@ export const actions = {
       data: {
         adm,
         fullname,
-        hash: hashSync(data.get('password') as string, 5),
+        hash: hashPassword(data.get('password') as string),
       }
     })
 

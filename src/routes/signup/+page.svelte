@@ -3,6 +3,7 @@
 	import { notBlank } from "$lib/broswer.js";
 
 	import Logo from "$component/Logo.svelte";
+	import Errors from "$component/Errors.svelte";
 
   export let data;
   export let form;
@@ -53,11 +54,7 @@
         </button>
       </div>
       {#if Array.isArray(form?.errors) }
-        <ul class="errors">
-          {#each form.errors as error}
-          <li>{error}</li>
-          {/each}
-        </ul>
+        <Errors errors={ form.errors}/>
       {/if}
       <div class="ft">
         <button type="submit">注册</button>
@@ -75,15 +72,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    .errors {
-      margin-bottom: 40px;
-      li {
-        line-height: 30px;
-        text-align: left;
-        color: var(--primary-900);
-      }
-    }
 
     form {
       width: 320px;
@@ -139,6 +127,9 @@
           border: 0;
           background-color: transparent;
           margin-left: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
 

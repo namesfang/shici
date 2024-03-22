@@ -155,6 +155,9 @@
           border: 0;
           background-color: transparent;
           margin-left: 20px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
       }
 
