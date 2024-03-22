@@ -3,13 +3,14 @@
 中华诗词收录了上至先秦，下至当代共计六万余首诗词，完全免费并开放所有诗词内容和程序源代码，您可自由复制、修改、传播诗词内容和程序源码
 数据来源[`michaelliao-shci`](https://github.com/michaelliao/shici/).
 
-#### 技术栈
+## 技术栈
 1. 框架 sveltekit4
-2. 数据库 sqlite
+2. 数据库 sqlite（推荐SQLite客户端 [http://sqlitebrowser.org](http://sqlitebrowser.org)）
 3. ORM 使用 prisma
 4. 验证码 svg-captcha
 
-#### 功能
+
+## 功能
 1. 诗词朝代
 2. 诗词列表
 3. 诗人列表
