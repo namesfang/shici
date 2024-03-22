@@ -19,12 +19,16 @@
       seconds --
     }, 1000)
   }
+
+  const redirectUrl = ()=> {
+    location.replace(redirect)
+  }
 </script>
 
 <div class="wrapper">
   <p>{desc}, {seconds}s 跳转到{pageName}</p>
   <p>
-    <Action href={ redirect } primary label="立即跳转"/>
+    <Action on:click={ redirectUrl } primary label="立即跳转"/>
   </p>
 </div>
 
