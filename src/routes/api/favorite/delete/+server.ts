@@ -12,16 +12,16 @@ export async function POST({ request, locals }) {
   }
 
   try {
-      await client.userFavorite.delete({
-        where: {
-          id,
-          userId: locals.user!.id
-        }
-      })
-      return json({
-        code: 0,
-        msg: '已取消收藏',
-      })
+    await client.userFavorite.delete({
+      where: {
+        id,
+        userId: locals.user!.id
+      }
+    })
+    return json({
+      code: 0,
+      msg: '已取消收藏',
+    })
   } catch (error) {
     return json({
       code: 1,

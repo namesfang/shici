@@ -3,6 +3,7 @@
 
 	import Action from '$component/Action.svelte';
 	import { afterNavigate } from '$app/navigation';
+	import Switch from '$component/Switch.svelte';
 
   export let data;
 
@@ -15,6 +16,9 @@
     u: '',
     p: '',
     g: '',
+
+    signup_enable: false,
+    login_enable: false
   }
 
   type Shadow = typeof shadow
@@ -26,15 +30,15 @@
     if(data.parsed) {
       const parsed: Shadow = data.parsed
 
-      if(parsed.default_password) {
-        parsed.default_password = ''
-      } else if(parsed.p) {
-        parsed.p = ''        
-      }
-
-      let name: Name;
-      for(name in parsed) {
-        shadow[name] = parsed[name]
+      if(key === 'adm_wechat_contact') {
+        shadow.id = parsed.id
+        shadow.qrl = parsed.qrl
+      } else if(key === 'smsbao') {
+        shadow.u = parsed.u
+        shadow.g = parsed.g
+      } else if(key === 'account_control') {
+        shadow.login_enable = parsed.login_enable
+        shadow.signup_enable = parsed.signup_enable
       }
     }
   })
@@ -120,6 +124,15 @@
           <span>专属通道：</span>
           <input bind:value={ shadow.g } name="g" type="text" placeholder="非必填"/>
         </li>
+        {:else if key === 'account_control'}
+        <li>
+          <span>开启注册：</span>
+          <Switch bind:value={ shadow.signup_enable } name="signup_enable" active="开启"/>
+        </li>
+        <li>
+          <span>开启登录：</span>
+          <Switch bind:value={ shadow.login_enable } name="login_enable" active="开启"/>
+        </li>
         {/if}
       </ul>
       <div class="footer">
@@ -187,9 +200,11 @@
           span {
             width: 150px;
             text-align: right;
+            font-size: 14px;
           }
           input {
             flex: 1;
+            font-size: 14px;
             padding: 5px 15px;
             border-radius: 5px;
             border: 1px solid var(--gray-300);

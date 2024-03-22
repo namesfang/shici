@@ -75,7 +75,18 @@ export const actions = {
       })
     }
 
-    const data: {[key: string]: string} = { }
+    const data: ScalarObject = { }
+
+    // type Ser = {
+    //   default_password: string
+    // } | {
+    //   id: string;
+    //   qrl: string;
+    // } | {
+    //   u: string;
+    //   p: string;
+    //   g: string
+    // }
 
     if(key === 'default_password') {
       data.default_password = hashPassword(form.get('default_password') as string)
@@ -86,6 +97,9 @@ export const actions = {
       data.u = form.get('u') as string
       data.p = createHash('md5').update(form.get('p') as string).digest('hex')
       data.g = form.get('g') as string
+    } else if(key === 'account_control') {
+      data.signup_enable = String(form.get('signup_enable') ?? 'false') === 'true'
+      data.login_enable = String(form.get('login_enable') ?? 'false') === 'true'
     }
 
     await client.configuration.update({

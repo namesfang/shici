@@ -41,6 +41,7 @@
 </script>
 
 <div class="toolbar">
+  <div class="buttons"></div>
   <form action="/user/correction" class="finder">
     <input type="text" name="keyword" { placeholder } bind:value={keyword}/>
     <Action type="submit" primary>搜索</Action>
@@ -92,71 +93,5 @@
 <Pagination {count} />
 
 <style lang="scss">
-  .toolbar {
-    height: 32px;
-    margin: 20px 0;
-    display: flex;
-    justify-content: space-between;
-
-    .finder {
-      height: 32px;
-
-      input {
-        width: 120px;
-        height: 30px;
-        padding: 0 20px;
-        border: 1px solid var(--gray-200);
-        border-radius: 4px;
-        &:focus {
-          border-color: transparent;
-          outline: 3px solid var(--primary-900);
-        }
-      }
-    }
-  }
-
-  table {
-    width: 100%;
-    border-collapse: collapse;
-    border-spacing: 0;
-    border-radius: 5px;
-    border: 1px solid var(--gray-200);
-    thead {
-      tr {
-        margin: 0;
-        padding: 0;
-        th {
-          height: 38px;
-          font-size: 14px;
-          font-weight: bold;
-          color: var(--gray-400);
-          padding: 0 8px;
-          background-color: var(--gray-50);
-        }
-      }
-    }
-    tbody {
-      tr {
-        &:nth-child(even) {
-          background-color: var(--gray-50);
-        }
-        td {
-          height: 38px;
-          font-size: 14px;
-          padding: 0 8px;
-          &.buttons {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            :global(button) {
-              margin-right: 10px;
-              &:last-child {
-                margin: 0;
-              }
-            }
-          }
-        }
-      }
-    }
-  }
+  @import '../module.scss'
 </style>
