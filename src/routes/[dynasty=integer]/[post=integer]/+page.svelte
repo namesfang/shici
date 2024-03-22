@@ -124,10 +124,12 @@
       {/each}
     </section>
     <footer>
-      <button on:click={ addFavrite } class={starred ? 'starred' : ''} type="button">
-        <Icon type="heart-fill" medium />
-        <span>{starred ? '已收藏' : '收藏'}</span>
-      </button>
+      {#if data.locals.control.login_enable}
+        <button on:click={ addFavrite } class={starred ? 'starred' : ''} type="button">
+          <Icon type="heart-fill" medium />
+          <span>{starred ? '已收藏' : '收藏'}</span>
+        </button>
+      {/if}
       <button on:click={ ()=> formVisible = true } type="button">
         <Icon type="edit-fill" medium />
         <span>纠错信息</span>
@@ -143,7 +145,7 @@
 <Dialog bind:visible={formVisible} title="我要纠错" confirmText="提交" confirmAction={confirm}>
   <ul class="form">
     <li>
-      <Select options={types} bind:value={form.type}/>
+      <Select options={types} bind:value={form.type} large/>
     </li>
     <li>
       <input type="text" bind:value={form.captcha} maxlength="4" placeholder="验证码"/>
@@ -281,7 +283,7 @@
 
   .form {
     width: 320px;
-    height: 300px;
+    height: 330px;
     li {
       width: 100%;
       font-size: 0;
@@ -297,7 +299,7 @@
 
         button {
           width: 150px;
-          height: 32px;
+          height: 46px;
           border: 0;
           background-color: transparent;
           border-radius: 5px;
@@ -312,12 +314,12 @@
       }
 
       input {
-        height: 20px;
+        height: 24px;
       }
 
       input,
       textarea {
-        padding: 5px 9px;
+        padding: 10px 9px;
         border-radius: 4px;
         border: 1px solid var(--gray-300);
         &:focus {

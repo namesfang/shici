@@ -41,7 +41,7 @@
 <div class="login-wrapper">
     <form on:submit={ verification } method="POST">
       <div class="hd">
-        <Logo small/>
+        <Logo small round/>
       </div>
       <div class="md">
         <input bind:value={ shadow.fullname} name="fullname" type="text" placeholder="账号" autocomplete="off"/>
@@ -54,15 +54,17 @@
         </button>
       </div>
       {#if Array.isArray(form?.errors) }
-        <Errors errors={ form.errors}/>
+        <Errors errors={ form.errors }/>
       {/if}
       <div class="ft">
         <button type="submit">注册</button>
       </div>
-      <div class="at">
-        <span>已有账号,请</span>
-        <a href="/login">登录</a>
-      </div>
+      {#if data.locals.control.login_enable}
+        <div class="at">
+          <span>已有账号,请</span>
+          <a href="/login">登录</a>
+        </div>
+      {/if}
     </form>
 </div>
 

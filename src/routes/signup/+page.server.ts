@@ -2,6 +2,12 @@ import { fail, redirect } from "@sveltejs/kit"
 import { client } from "$lib/prisma"
 import { captchaValidator, hashPassword, notBlank } from "$lib"
 
+export function load({ locals }) {
+  if(!locals.control.signup_enable) {
+    return redirect(302, '/signup/disabled')
+  }
+}
+
 export const actions = {
   async default({ request, locals }) {
     const data = await request.formData()
@@ -19,10 +25,10 @@ export const actions = {
     }
 
     // 校验验证码
-    const error = await captchaValidator(locals.sessionid, data.get('captcha') as string)
-    if (error) {
+    const err = await captchaValidator(locals.sessionid, data.get('captcha') as string)
+    if (err) {
       return fail(422, {
-        errors: [error],
+        errors: [err],
       })
     }
 

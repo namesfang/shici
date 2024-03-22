@@ -1,4 +1,5 @@
 <script lang="ts">
+	import Errors from "$component/Errors.svelte";
 	import Logo from "$component/Logo.svelte";
 	import { notBlank } from "$lib/broswer.js";
 
@@ -41,7 +42,7 @@
 <div class="login-wrapper">
     <form on:submit={ verification } method="POST">
       <div class="hd">
-        <Logo small/>
+        <Logo small round/>
       </div>
       <div class="md">
         <!-- svelte-ignore a11y-autofocus -->
@@ -49,7 +50,7 @@
         <input bind:value={ shadow.password } name="password" type="password" placeholder="密码"/>
       </div>
       <div class="rp">
-        <a href="/reset-password">忘记密码?</a>
+        <a href={data.enabled ? '/reset-password' : '/website-administrator'}>忘记密码?</a>
       </div>
       <div class="pt">
         <input bind:value={ shadow.captcha } name="captcha" type="text" maxlength="4" placeholder="验证码"/>
@@ -58,19 +59,17 @@
         </button>
       </div>
       {#if Array.isArray(form?.errors) }
-        <ul class="errors">
-          {#each form.errors as error}
-          <li>{error}</li>
-          {/each}
-        </ul>
+        <Errors errors={ form.errors}/>
       {/if}
       <div class="ft">
         <button type="submit">登录</button>
       </div>
-      <div class="at">
-        <span>还没有账号,请</span>
-        <a href="/signup">注册</a>
-      </div>
+      {#if data.locals.control.signup_enable}
+        <div class="at">
+          <span>还没有账号,请</span>
+          <a href="/signup">注册</a>
+        </div>
+      {/if}
     </form>
 </div>
 
@@ -80,15 +79,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-
-    .errors {
-      margin-bottom: 40px;
-      li {
-        line-height: 30px;
-        text-align: left;
-        color: var(--primary-900);
-      }
-    }
 
     form {
       width: 320px;

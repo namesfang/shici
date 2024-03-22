@@ -4,6 +4,30 @@ import { client } from "$lib/prisma"
 import { compareSync } from 'bcrypt'
 import { captchaValidator } from "$lib"
 
+export async function load({ locals }) {
+  if(!locals.control.login_enable) {
+    return redirect(302, '/login/disabled')
+  }
+
+  const config = await client.configuration.findFirst({
+    where: {
+      key: 'smsbao'
+    }
+  })
+
+  let enabled = false
+  if(config) {
+    const parsed = JSON.parse(config.value)
+    if(parsed.data.u.length > 0 && parsed.data.p.length > 0) {
+      enabled = true
+    }
+  }
+
+  return {
+    enabled
+  }
+}
+
 export const actions = {
   async default({ url, request, locals }) {
     const data = await request.formData()
@@ -33,10 +57,10 @@ export const actions = {
     }
 
     // 校验验证码
-    const error = await captchaValidator(locals.sessionid, data.get('captcha') as string)
-    if(error) {
+    const err = await captchaValidator(locals.sessionid, data.get('captcha') as string)
+    if(err) {
       return fail(422, {
-        errors: [ error ]
+        errors: [ err ]
       })
     }
 

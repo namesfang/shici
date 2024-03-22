@@ -58,9 +58,11 @@
         {/each}
       </ul>
       {#if null === data.locals.user}
-        <a href="/login" class="avatar">
-          <Logo small className="offline"/>
-        </a>
+        {#if data.locals.control.login_enable}
+          <a href="/login" class="avatar">
+            <Logo small className="offline"/>
+          </a>
+        {/if}
       {:else}
         <a href="/user" class="avatar">
           <Logo small />
