@@ -2,20 +2,16 @@
 	import Action from "$component/Action.svelte";
 	import Dialog from "$component/Dialog.svelte";
 	import Pagination from "$component/Pagination.svelte";
-	import { toast } from "$lib/broswer.js";
+
+	import { toast } from "$lib/broswer";
+
+  import type { User } from '@prisma/client'
 
   export let data;
 
   let currentIndex = -1
 
-  let current = {} as {
-    id: number;
-    fullname: string;
-    hash: string;
-    adm: boolean;
-    frozen: boolean;
-    createdAt: Date;
-  }
+  let current = {} as User
 
   $: list = data.list;
   $: count = data.count;
