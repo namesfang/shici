@@ -9,13 +9,14 @@
 
   export let data;
 
+  let keyword = data.keyword
+  
   let currentIndex = -1
 
   let current = {} as User
 
   $: list = data.list;
   $: count = data.count;
-  $: keyword = data.keyword
 
   $: {
     if(currentIndex > -1) {
