@@ -125,6 +125,16 @@
           border: 0;
           width: 100%;
           background-color: var(--primary-900);
+          position: relative;
+          &:active {
+            &::after {
+              content: "";
+              background-color: rgba(0,0,0,.2);
+              position: absolute;
+              inset: 0;
+              border-radius: 10px;
+            }
+          }
         }
       }
       
