@@ -46,9 +46,15 @@ table {
   }
   tbody {
     tr {
+
       &:nth-child(even) {
         background-color: var(--gray-50);
       }
+
+      &:hover {
+        background-color: var(--gray-200);
+      }
+
       td {
         height: 38px;
         font-size: 14px;
