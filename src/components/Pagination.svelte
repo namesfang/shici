@@ -69,7 +69,7 @@
       }
       // 1 ... 297 298 299 300 301 302 303 304
       // 分页页码最后一页
-      else if(pageCurrent > pageCount - pagerMax + 1) {
+      else if(pageCurrent > pageCount - pagerMax + 2) {
         // 添加...
         newPager.push(makePager(0, true))
         for(let i=pageCount - pagerMax + 2; i<pageCount; i++) {
