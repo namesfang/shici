@@ -161,6 +161,7 @@
           }
           a {
             font-size: 14px;
+            color: var(--gray-900);
             padding: 5px 15px;
             border-radius: 4px;
             background-color: var(--gray-100);
