@@ -8,7 +8,7 @@ export async function GET({ locals }) {
     height: 46,
     noise: 4,
     color: true,
-    ignoreChars: '1,i,l,o'
+    ignoreChars: '1,i,l,o,0'
   })
 
   const redis = await client()
