@@ -6,6 +6,7 @@
 	import Dialog from '$component/Dialog.svelte';
 	import Icon from '$component/Icon.svelte';
 	import Select from '$component/Select.svelte';
+	import Captcha from '$component/Captcha.svelte';
 
 	import type { Author, Dynasty } from '@prisma/client';
 
@@ -16,23 +17,15 @@
 
   let visible = false
   let formVisible = false
-  let svgHtml = ''
 
   $: author = data.detail?.author
   $: dynasty = data.detail?.dynasty
-
-  // 获取验证码接口
-  const fetchCaptcha = async ()=> {
-    svgHtml = await (await fetch('/api/captcha')).text()
-  }
 
   $: if(formVisible) {
     message = ''
     
     form.content = ''
     form.captcha = ''
-
-    fetchCaptcha()
   }
 
   let starred = data.favCount > 0
@@ -149,9 +142,7 @@
     </li>
     <li>
       <input type="text" bind:value={form.captcha} maxlength="4" placeholder="验证码"/>
-      <button on:click={ fetchCaptcha } type="button" title="点击刷新验证码">
-        {@html svgHtml}
-      </button>
+      <Captcha/>
     </li>
     <li>
       <textarea bind:value={form.content} placeholder="内容描述10~500个字"></textarea>
@@ -295,15 +286,6 @@
         justify-content: space-between;
         input {
           width: 130px;
-        }
-
-        button {
-          width: 150px;
-          height: 46px;
-          border: 0;
-          background-color: transparent;
-          border-radius: 5px;
-          cursor: pointer;
         }
       }
 

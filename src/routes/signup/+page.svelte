@@ -4,17 +4,12 @@
 
 	import Logo from "$component/Logo.svelte";
 	import Errors from "$component/Errors.svelte";
+	import Captcha from "$component/Captcha.svelte";
 
   export let data;
   export let form;
 
   $: locals = data.locals
-
-  // 获取验证码接口
-  let svgHtml = '';
-  const fetchCaptcha = async ()=> {
-    svgHtml = await (await fetch('/api/captcha')).text()
-  }
 
   const shadow = {
     fullname: '',
@@ -28,10 +23,6 @@
       captcha: '验证码'
     })
   }
-
-  onMount(()=> {
-    fetchCaptcha()
-  })
 </script>
 
 <svelte:head>
@@ -49,9 +40,7 @@
       </div>
       <div class="pt">
         <input bind:value={ shadow.captcha} name="captcha" type="text" maxlength="4" placeholder="验证码"/>
-        <button on:click={ fetchCaptcha } type="button" title="点击刷新验证码">
-          {@html svgHtml}
-        </button>
+        <Captcha/>
       </div>
       {#if Array.isArray(form?.errors) }
         <Errors errors={ form.errors }/>
@@ -122,16 +111,6 @@
         input {
           width: 150px;
           border-radius: 10px;
-        }
-        button {
-          width: 150px;
-          border-radius: 10px;
-          border: 0;
-          background-color: transparent;
-          margin-left: 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
         }
       }
 
