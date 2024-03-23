@@ -23,7 +23,7 @@
   }
 
   const deleteIt = async (close: ()=> void)=> {
-    const result = await fetch('/api/favorite/delete', {
+    const result = await fetch('/api/correction/delete', {
       method: 'POST',
       body: JSON.stringify({
         id
@@ -75,7 +75,7 @@
         <td align="center">{ fav.createdAt.toLocaleString() }</td>
         {#if data.locals.user?.adm}
           <td align="center" class="buttons">
-            <Action on:click={ ()=> openDeleteDialog({id: fav.id, title: fav.post.title}) } small primary label="取消"/>
+            <Action on:click={ ()=> openDeleteDialog({id: fav.id, title: fav.post.title}) } small label="撤回"/>
           </td>
         {/if}
       </tr>
@@ -88,7 +88,7 @@
   </tbody>
 </table>
 
-<Dialog confirmAction={ deleteIt } bind:visible={visible} title="确认删除" content={`确定删除此“${title}”收藏？`}></Dialog>
+<Dialog confirmAction={ deleteIt } bind:visible={visible} title="确认撤回" content="确定撤回此次提交？"></Dialog>
 
 <Pagination {count} />
 
