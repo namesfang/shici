@@ -31,7 +31,7 @@
   <title>账号登录|{locals.title}</title>
 </svelte:head>
 
-<div class="login-wrapper">
+<div class="wrapper">
     <form on:submit={ verification } method="POST">
       <div class="hd">
         <Logo small round/>
@@ -64,106 +64,5 @@
 </div>
 
 <style lang="scss">
-  .login-wrapper {
-    height: calc(100vh - var(--height-header) - var(--height-footer));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    form {
-      width: 320px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 32px 24px;
-      background-color: var(--gray-50);
-      border: 1px solid var(--gray-100);
-      border-radius: 10px;
-
-      input {
-        width: 100%;
-        height: 46px;
-        padding: 0 20px 0 40px;
-        box-sizing: border-box;
-        position: relative;
-        z-index: 0;
-        
-        &:first-child {
-          border-radius: 10px 10px 0 0;
-          border: 1px solid var(--gray-300);
-        }
-        &:last-child {
-          border-radius: 0 0 10px 10px;
-          border: 1px solid var(--gray-300);
-          border-top: 0;
-        }
-        &:focus {
-          border-color: transparent;
-          outline: 3px solid var(--primary-900);
-          z-index: 1;
-        }
-      }
-      
-      .hd {
-        height: 72px;
-      }
-
-      .md {
-        margin: 40px 0 10px;
-      }
-
-      .rp {
-        width: 100%;
-        text-align: right;
-        margin: 0 0 20px;
-        a {
-          font-size: 14px;
-          color: var(--primary-900);
-        }
-      }
-
-      .pt {
-        margin-bottom: 40px;
-        display: flex;
-        input {
-          width: 150px;
-          border-radius: 10px;
-        }
-      }
-
-      .ft {
-        width: 100%;
-        height: 46px;
-        button {
-          height: 46px;
-          font-size: 14px;
-          color: #fff;
-          border-radius: 10px;
-          border: 0;
-          width: 100%;
-          background-color: var(--primary-900);
-          position: relative;
-          &:active {
-            &::after {
-              content: "";
-              background-color: rgba(0,0,0,.2);
-              position: absolute;
-              inset: 0;
-              border-radius: 10px;
-            }
-          }
-        }
-      }
-      
-      .at {
-        line-height: 60px;
-        font-size: 14px;
-        a {
-          &:hover {
-            text-decoration: underline;
-          }
-        }
-      }
-    }
-  }
+  @import './module.scss'
 </style>

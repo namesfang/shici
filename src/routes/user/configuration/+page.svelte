@@ -99,38 +99,38 @@
         </li>
         {#if key === 'default_password'}
           <li>
-            <span>重置密码：</span>
+            <span>重置密码</span>
             <input bind:value={ shadow.default_password } name="default_password" type="password" placeholder="保存后自动加密不会明文保存"/>
           </li>
         {:else if key === 'adm_wechat_contact'}
         <li>
-          <span>微信号：</span>
+          <span>微信号</span>
           <input bind:value={ shadow.id } name="id" type="text" placeholder="例：namesfang"/>
         </li>
         <li>
-          <span>微信二维码链接：</span>
+          <span>微信二维码链接</span>
           <input bind:value={ shadow.qrl } name="qrl" type="text" placeholder="例：https://u.wechat.com/"/>
         </li>
         {:else if key === 'smsbao'}
         <li>
-          <span>账号：</span>
+          <span>账号</span>
           <input bind:value={ shadow.u } name="u" type="text" placeholder="短信宝平台账号"/>
         </li>
         <li>
-          <span>密码：</span>
+          <span>密码</span>
           <input bind:value={ shadow.p } name="p" type="password" placeholder="短信宝平台密码 保存后自动加密不会明文保存"/>
         </li>
         <li>
-          <span>专属通道：</span>
+          <span>专属通道</span>
           <input bind:value={ shadow.g } name="g" type="text" placeholder="非必填"/>
         </li>
         {:else if key === 'account_control'}
         <li>
-          <span>开启注册：</span>
+          <span>开启注册</span>
           <Switch bind:value={ shadow.signup_enable } name="signup_enable" active="开启"/>
         </li>
         <li>
-          <span>开启登录：</span>
+          <span>开启登录</span>
           <Switch bind:value={ shadow.login_enable } name="login_enable" active="开启"/>
         </li>
         {/if}
@@ -201,11 +201,12 @@
             width: 150px;
             text-align: right;
             font-size: 14px;
+            padding-right: 10px;
           }
           input {
             flex: 1;
             font-size: 14px;
-            padding: 5px 15px;
+            padding: 10px 15px;
             border-radius: 5px;
             border: 1px solid var(--gray-300);
             &:focus {
