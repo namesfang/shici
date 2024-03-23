@@ -1,26 +1,30 @@
 <script lang="ts">
-  export let lazy = false;
+	import { onMount } from "svelte";
 
   let svgHtml = '';
   const fetchCaptcha = async ()=> {
     svgHtml = await (await fetch('/api/captcha')).text()
   }
 
-  if(false === lazy) {
+  onMount(()=> {
     fetchCaptcha()
-  }
+  })
 </script>
 
 <button on:click={ fetchCaptcha } type="button" title="点击刷新验证码">
-  {@html svgHtml}
+  {@html svgHtml ? svgHtml : '正在加载...'}
 </button>
 
 <style lang="scss">
   button {
     width: 150px;
+    line-height: 46px;
+    text-align: center;
+    font-size: 14px;
+    color: var(--gray-400);
     border-radius: 10px;
     border: 0;
-    background-color: transparent;
+    background-color: var(--gray-100);
     margin-left: 20px;
     display: flex;
     align-items: center;
