@@ -51,6 +51,12 @@
   --height-wrapper: calc(100vh - var(--height-header) - var(--height-footer))
 }
 
+@media screen and (max-height: 800px) {
+  :root {
+    --height-wrapper: 600px;
+  }
+}
+
 * {
   font-family: source-han-sans-simplified-c, sans-serif;
   font-style: normal;
