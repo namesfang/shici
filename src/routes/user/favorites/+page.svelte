@@ -84,7 +84,7 @@
   </tbody>
 </table>
 
-<Dialog confirmAction={ deleteIt } bind:visible={visible} title="确认删除" content={`确定删除此“${title}”收藏？`}></Dialog>
+<Dialog confirmAction={ deleteIt } bind:visible={ visible } title="确认取消" content={`确定取消此“${title}”收藏？`}></Dialog>
 
 <Pagination {count} />
 
