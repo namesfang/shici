@@ -1,8 +1,6 @@
 import { client } from "$lib/prisma";
 import { client as redisClient } from "$lib/redis";
-import { redirect, type Handle, type HandleFetch } from "@sveltejs/kit";
-import { writeFileSync } from "node:fs";
-
+import { redirect } from "@sveltejs/kit";
 
 const getDict = async()=> {
   //
@@ -79,13 +77,13 @@ const getAccountControl = async()=> {
   return accountControl
 }
 
-export const handle: Handle = async ({ event, resolve })=> {
+export async function handle ({ event, resolve }) {
   let sessionid = event.cookies.get('sessionid')
   if(!sessionid) {
     event.cookies.set('sessionid', sessionid = crypto.randomUUID(), {
       path: '/',
-      sameSite: 'none',
       maxAge: 2592000,
+      secure: false
     })
   }
 
@@ -124,19 +122,4 @@ export const handle: Handle = async ({ event, resolve })=> {
   }
 
   return resolve(event)
-}
-
-export const handleFetch: HandleFetch = async({ event, request, fetch }) => {
-
-  if(request.url.startsWith('http://shici.cli.life/')) {
-    request.headers.set('cookie', event.request.headers.get('cookie') ?? '')
-    request = new Request(
-      request.url.replace('http://shici.cli.life/', 'http://localhost:4000/'),
-      request,
-    );
-  }
-
-  writeFileSync('/tmp/hdr.txt', event.request.headers.get('cookie') ?? 'empty')
-  writeFileSync('/tmp/url.txt', request.url)
-  return fetch(request)
 }
