@@ -108,10 +108,12 @@
         <td align="center">{ t.adm ? '✅' : '' }</td>
         <td align="center">{ t.createdAt.toLocaleString() }</td>
         <td align="center" class="buttons">
-          {#if t.frozen}
-            <Action on:click={ ()=> openDeleteDialog(index) } small success>启用</Action>
-          {:else}
-            <Action on:click={ ()=> openDeleteDialog(index) } small primary>停用</Action>
+          {#if count > 1}
+            {#if t.frozen}
+              <Action on:click={ ()=> openDeleteDialog(index) } small success>启用</Action>
+            {:else}
+              <Action on:click={ ()=> openDeleteDialog(index) } small primary>停用</Action>
+            {/if}
           {/if}
           <Action href={`/user/users/edit?id=${t.id}`} small warning>编辑</Action>
           <Action on:click={ ()=> openResetDialog(index) } small>重置密码</Action>

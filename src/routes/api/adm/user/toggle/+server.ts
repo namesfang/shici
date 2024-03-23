@@ -37,6 +37,22 @@ export async function POST({ request, locals }) {
       })
     }
 
+    // 禁用账号时统计启用的账号是否
+    if(!info.frozen) {
+      const count = await client.user.count({
+        where: {
+          frozen: false
+        }
+      })
+
+      if(count < 2) {
+        return json({
+          code: 1,
+          msg: '系统必须有1个可用账号'
+        })
+      }
+    }
+
     await client.user.update({
       where: {
         id,
