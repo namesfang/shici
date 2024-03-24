@@ -65,16 +65,13 @@ const getAccountControl = async()=> {
     }
   })
 
-  const accountControl = {
+  if(config) {
+    return JSON.parse(config.value).data
+  }
+  return {
     signup_enable: true,
     login_enable: true
   }
-  if(config) {
-    const parsed = JSON.parse(config.value)
-    accountControl.login_enable = parsed.data.login_enable
-    accountControl.signup_enable = parsed.data.signup_enable
-  }
-  return accountControl
 }
 
 export async function handle ({ event, resolve }) {
