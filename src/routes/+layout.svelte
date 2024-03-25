@@ -82,6 +82,7 @@
     <a class="underline" rel="nofollow" href="https://beian.miit.gov.cn/">皖ICP备19011029号-12</a>
   </p>
   <p>中华诗词收录了上至先秦下至当代，共计{data.postCount}首诗词，{data.authorCount}位诗人；完全免费并开放所有诗词内容和程序源代码，您可自由复制、修改、传播诗词内容和程序源码。<a class="underline" rel="nofollow" href="https://github.com/michaelliao/shici/">数据来源</a></p>
+  <p>本站使用 SvelteKit 构建，获取源代码</p>
   <p>
     <a rel="nofollow" href="https://github.com/namesfang/shici">
       <Icon type="github-fill" medium/>
@@ -198,12 +199,14 @@
     p {
       height: 32px;
       font-size: 14px;
+      color: var(--gray-500);
       margin: 0;
       display: flex;
       align-items: center;
       justify-content: center;
       a {
-        color: var(--gray-900);
+        margin-left: 5px;
+        color: var(--gray-500);
         &[class^="underline"]:hover {
           text-decoration: underline;
         }
