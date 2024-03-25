@@ -63,6 +63,7 @@ table {
           display: flex;
           align-items: center;
           justify-content: center;
+          :global(a),
           :global(button) {
             margin-right: 10px;
             &:last-child {
