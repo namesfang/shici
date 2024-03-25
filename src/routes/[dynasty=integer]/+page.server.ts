@@ -66,6 +66,7 @@ export async function load({ params, url }) {
     posts,
     take,
     count,
-    dynasty
+    dynasty,
+    keyword,
   }
 }

@@ -16,9 +16,15 @@
     {#each posts as list, index}
     <ul>
       {#each list as t, i}
-      <li>
-        <a href="/{t.dynastyId}/{t.id}" title={t.title}><span>{index * 20 + i+1}.</span> {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)} <span>{t.author.fullname}</span></a>
-      </li>
+        <li data-line={ `${index * 20 + i+1}.` }>
+          <a href="/{t.dynastyId}/{t.id}" title={t.title} data-author={ t.author.fullname }>
+            {#if keyword.length === 0}
+              {t.title}
+            {:else}
+              <span>{@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</span>
+            {/if}
+          </a>
+        </li>
       {/each}
     </ul>
     {/each}
@@ -46,31 +52,40 @@
       }
       li {
         width: 100%;
-        line-height: 38px;
+        height: 42px;
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
-        a {
-          font-size: 16px;
-          color: var(--gray-700);
-          position: relative;
+        display: flex;
+        align-items: center;
 
-          span {
-            color: var(--gray-400);
-          }
+        &::before {
+          content: attr(data-line);
+          font-size: 14px;
+          color: var(--gray-500);
+          padding-right: 5px;
+        }
+        
+
+        a {
+          line-height: 18px;
+          font-size: 16px;
+          color: var(--gray-900);
+          position: relative;
+          display: flex;
+          flex-direction: column;
           
           &:hover {
-            // color: var(--primary-900);
-            // span {
-            //   color: var(--primary-900);
-            // }
-            &::after {
-              content: "";
-              position: absolute;
-              left: 0;
-              right: 0;
-              bottom: -3px;
-              border-bottom: 2px solid var(--primary-900);
+            font-size: 14px;
+            color: var(--gray-900);
+            white-space: wrap;
+            background-color: var(--gray-100);
+            padding: 5px 10px 7px;
+            border-radius: 6px;
+            &::before {
+              content: attr(data-author);
+              font-size: 12px;
+              color: var(--gray-600);
             }
           }
         }

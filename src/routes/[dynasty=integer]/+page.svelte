@@ -7,7 +7,7 @@
   //
   export let data;
 
-  let keyword = $page.url.searchParams.get('keyword') ?? ''
+  $: keyword = data.keyword ?? ''
 
   $: title = `${data.dynasty.name}诗词`
 

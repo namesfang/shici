@@ -30,9 +30,15 @@
     {#each data.contents as list, index}
     <ul>
       {#each list as t, i}
-      <li>
-        <a href="/{t.post.dynastyId}/{t.post.id}"><span>{index * 20 + i+1}</span>. {t.post.title} • {@html t.content.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</a>
-      </li>
+        <li data-line={`${index * 20 + i+1}.`}>
+          <a href="/{t.post.dynastyId}/{t.post.id}" data-from={t.post.title}>
+            {#if keyword.length === 0}
+              {t.content}
+            {:else}
+              <span>{@html t.content.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</span>
+            {/if}
+          </a>
+        </li>
       {/each}
     </ul>
     {/each}
@@ -65,26 +71,43 @@
       &:last-child {
         margin: 0;
       }
+
       li {
+        width: 100%;
+        height: 42px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: flex;
+        align-items: center;
+
+        &::before {
+          content: attr(data-line);
+          font-size: 14px;
+          color: var(--gray-500);
+          padding-right: 5px;
+        }
+        
+
         a {
-          line-height: 36px;
+          line-height: 18px;
           font-size: 16px;
+          color: var(--gray-900);
           position: relative;
-          color: var(--gray-700);
-
-          span {
-            color: var(--gray-400);
-          }
-
+          display: flex;
+          flex-direction: column;
+          
           &:hover {
-            &::after {
-              content: "";
-              position: absolute;
-              left: 0;
-              right: 0;
-              bottom: -3px;
-              border-bottom: 2px solid var(--primary-900);
-              transition: all .5;
+            font-size: 14px;
+            color: var(--gray-900);
+            white-space: wrap;
+            background-color: var(--gray-100);
+            padding: 5px 10px 7px;
+            border-radius: 6px;
+            &::before {
+              content: attr(data-from);
+              font-size: 12px;
+              color: var(--gray-600);
             }
           }
         }
