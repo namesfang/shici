@@ -17,11 +17,11 @@
     <ul>
       {#each list as t, i}
         <li data-line={ `${index * 20 + i+1}.` }>
-          <a href="/{t.dynastyId}/{t.id}" title={t.title} data-author={ t.author.fullname }>
+          <a href="/{t.dynastyId}/{t.id}" title={t.title}>
             {#if keyword.length === 0}
-              {t.title}
+            { t.author.fullname } • {t.title}
             {:else}
-              <span>{@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</span>
+              <span>{ t.author.fullname } • {@html t.title.replaceAll(keyword, `<em style="color: var(--primary-600)">${keyword}</em>`)}</span>
             {/if}
           </a>
         </li>
@@ -82,11 +82,6 @@
             background-color: var(--gray-100);
             padding: 5px 10px 7px;
             border-radius: 6px;
-            &::before {
-              content: attr(data-author);
-              font-size: 12px;
-              color: var(--gray-600);
-            }
           }
         }
       }
